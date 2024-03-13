@@ -11,15 +11,17 @@ module semana1_tb;
 
     wire       pronto_out ;
     wire [8:0] leds_out   ;
-    wire       joga_macro;
-    wire       joga_micro;
+    wire       jogar_macro;
+    wire       jogar_micro;
+
+
 
     wire [6:0] db_estado_out   ;
     wire [6:0] db_macro_out    ;
     wire [6:0] db_micro_out     ;
     wire       db_tem_jogada_out ;
 
-    // Configuração do clock
+    // ConfiguraÃ§Ã£o do clock
     parameter clockPeriod = 20; // in ns, f=50MHz
 
     // Identificacao do caso de teste
@@ -36,12 +38,12 @@ module semana1_tb;
       .botoes         ( botoes_in   ),
       .pronto         ( pronto_out  ),
       .leds           ( leds_out    ),
-      .db_tem_jogada  (db_tem_jogada_out),
+      .db_tem_jogada  (db_tem_jogada_out ),
       .jogar_macro    (jogar_macro),
       .jogar_micro    (jogar_micro),
-      .db_macro       (db_macro),
-      .db_micro       (db_micro),
-      .db_estado      (db_estado)
+      .db_macro       (db_macro_out),
+      .db_micro       (db_micro_out),
+      .db_estado      (db_estado_out)
 
     );
 
@@ -60,7 +62,7 @@ module semana1_tb;
       /*
        * # Cenario de Teste 1 #
        * Executar duas jogadas
-       * e reiniciar a operação
+       * e reiniciar a operaÃ§Ã£o
        */
 
       // Teste 1. resetar circuito
@@ -81,7 +83,7 @@ module semana1_tb;
       // espera
       #(10*clockPeriod);
 
-      // Teste 3. jogada macro (pressionar botão 4 por 2 periodos de clock)
+      // Teste 3. jogada macro (pressionar botÃ£o 4 por 2 periodos de clock)
       caso = 3;
       @(negedge clock_in);
       botoes_in = 9'b000001000;
@@ -90,7 +92,7 @@ module semana1_tb;
       // espera entre jogadas
       #(10*clockPeriod);
 
-      // Teste 4. jogada micro (pressionar botão 5 por 2 periodos de clock)
+      // Teste 4. jogada micro (pressionar botÃ£o 5 por 2 periodos de clock)
       caso = 4;
       @(negedge clock_in);
       botoes_in = 9'b000010000;
@@ -99,7 +101,7 @@ module semana1_tb;
       // espera entre jogadas
       #(10*clockPeriod);
 
-      // Teste 5. Aguardar no estado fim por 20 períodos de clock
+      // Teste 5. Aguardar no estado fim por 20 perÃ­odos de clock
       caso = 5;
       @(negedge clock_in);
       botoes_in = 9'b000000000;
@@ -116,7 +118,7 @@ module semana1_tb;
       // espera
       #(10*clockPeriod);
 
-       // Teste 7. jogada macro (pressionar botão 2 por 2 periodos de clock)
+       // Teste 7. jogada macro (pressionar botÃ£o 2 por 2 periodos de clock)
       caso = 7;
       @(negedge clock_in);
       botoes_in = 9'b000000010;
