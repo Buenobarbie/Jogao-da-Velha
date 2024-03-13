@@ -10,7 +10,7 @@ module circuito_jogo (
  output       jogar_micro,
  output [6:0] db_macro,
  output [6:0] db_micro,
- output [6:0] db_estado,
+ output [6:0] db_estado
 );
 
 
@@ -32,7 +32,7 @@ wire [8:0] micro_out;
 
 
 // Unidade de controle ------------------------------
-unidade_controle_exp7 unidade_controle(
+unidade_controle unidade_controle(
 	.clock              (clock),
 	.reset              (reset),
 	.iniciar            (iniciar),
@@ -44,12 +44,12 @@ unidade_controle_exp7 unidade_controle(
     .registraR_micro    (registraR_micro),
     .pronto             (pronto),
     .jogar_macro        (jogar_macro),
-    .joga_micro         (joga_micro),
+    .jogar_micro        (joga_micro),
     .db_estado          (estado_out)
 ); 
 
 // Fluxo de Dados ------------------------------
-fluxo_dados_exp7 fluxo_dados (
+fluxo_dados fluxo_dados (
     .clock            ( clock),
     .botoes           ( botoes),
     .zeraEdge         ( zeraEdge),
