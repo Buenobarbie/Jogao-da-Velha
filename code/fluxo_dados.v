@@ -40,7 +40,7 @@ wire[9:0] micro;
   );
 
 
-  // Geração do sinal das botoes
+  // Geração do sinal dos botoes
   assign sinal = (botoes[0] ^ botoes[1] ^ botoes[2]
                 ^ botoes[3] ^ botoes[4] ^ botoes[5] 
                 ^ botoes[6] ^ botoes[7] ^ botoes[8]);
