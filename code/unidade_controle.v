@@ -42,7 +42,7 @@ module unidade_controle (
             registra_macro:       Eprox = joga_micro;
             joga_micro:           Eprox = (tem_jogada) ? registra_micro : joga_micro;
             registra_micro:       Eprox = fim;
-            fim:                  Eprox = (iniciar) ? joga_macro : fim;
+            fim:                  Eprox = (iniciar) ? inicial : fim;
             
             default:              Eprox = inicial;
         endcase
