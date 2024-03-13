@@ -5,12 +5,12 @@ input        zeraEdge,
 input        zeraR_micro,
 input        zeraR_macro,
 input        registraR_micro, 
-input        registraR_micro,
+input        registraR_macro,
   
 output       tem_jogada,
 output [8:0] leds,
 output [8:0] db_macro, 
-output [8:0] db_micro,
+output [8:0] db_micro
 );
 
 
