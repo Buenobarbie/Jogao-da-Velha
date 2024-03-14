@@ -33,9 +33,9 @@ wire [8:0] micro_out;
 
 // Unidade de controle ------------------------------
 unidade_controle unidade_controle(
-	.clock              (clock),
-	.reset              (reset),
-	.iniciar            (iniciar),
+	 .clock              (clock),
+	 .reset              (reset),
+	 .iniciar            (iniciar),
     .tem_jogada         (tem_jogada),
     .zeraR_macro        (zeraR_macro),
     .zeraR_micro        (zeraR_micro),
@@ -44,7 +44,7 @@ unidade_controle unidade_controle(
     .registraR_micro    (registraR_micro),
     .pronto             (pronto),
     .jogar_macro        (jogar_macro),
-    .jogar_micro        (joga_micro),
+    .jogar_micro        (jogar_micro),
     .db_estado          (estado_out)
 ); 
 
