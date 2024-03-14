@@ -21,7 +21,7 @@ module semana1_tb;
     wire [6:0] db_micro_out     ;
     wire       db_tem_jogada_out ;
 
-    // ConfiguraÃ§Ã£o do clock
+    // Configuracao do clock
     parameter clockPeriod = 20; // in ns, f=50MHz
 
     // Identificacao do caso de teste
@@ -87,7 +87,7 @@ module semana1_tb;
       caso = 3;
       @(negedge clock_in);
       botoes_in = 9'b000001000;
-      #(2*clockPeriod);
+      #(20*clockPeriod);
       botoes_in = 9'b000000000;
       // espera entre jogadas
       #(10*clockPeriod);
@@ -96,7 +96,7 @@ module semana1_tb;
       caso = 4;
       @(negedge clock_in);
       botoes_in = 9'b000010000;
-      #(2*clockPeriod);
+      #(20*clockPeriod);
       botoes_in = 9'b000000000;
       // espera entre jogadas
       #(10*clockPeriod);
