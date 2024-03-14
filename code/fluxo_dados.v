@@ -17,26 +17,26 @@ output [8:0] db_micro
 wire sinal;
 
 wire[8:0] macro;
-wire[9:0] micro;
+wire[8:0] micro;
   
   
   // Registrador macro
   registrador_9 registradorMacro(
-  .clock(clock),
-  .clear(zeraR_macro),
-  .enable(registraR_macro),
-  .D(botoes),
-  .Q(macro)
+		.clock(clock),
+		.clear(zeraR_macro),
+		.enable(registraR_macro),
+		.D(botoes),
+		.Q(macro)
   );
 
 
    // Registrador micro
   registrador_9 registradorMicro(
-  .clock(clock),
-  .clear(zeraR_micro),
-  .enable(registraR_micro),
-  .D(botoes),
-  .Q(micro)
+		.clock(clock),
+		.clear(zeraR_micro),
+		.enable(registraR_micro),
+		.D(botoes),
+		.Q(micro)
   );
 
 
@@ -49,11 +49,11 @@ wire[9:0] micro;
   
 
   // edge detector
-    edge_detector edge_detector(
+ edge_detector edge_detector(
     .clock(clock),
     .reset(zeraEdge),
     .sinal(sinal),
-    .pulso(jogada_feita)
+    .pulso(tem_jogada)
     );
 
 assign leds = botoes;
