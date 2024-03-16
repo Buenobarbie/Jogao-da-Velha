@@ -1,3 +1,5 @@
+// Esse módulo converte a entrada dos
+// botões para o binário correspondente, de 1 a 9
 module conversor (
     input      [8:0] botoes,
     output reg [3:0] binario
