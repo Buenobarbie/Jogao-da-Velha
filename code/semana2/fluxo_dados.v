@@ -8,6 +8,8 @@ input        registraR_micro,
 input        registraR_macro,
   
 output       tem_jogada,
+output       escolhe_macro,
+output       fim_jogo,
 output [8:0] leds,
 output [8:0] db_macro, 
 output [8:0] db_micro
@@ -18,14 +20,19 @@ wire sinal;
 
 wire[8:0] macro;
 wire[8:0] micro;
+
+wire estado_macro;
+wire endereco_macro;
+wire mux_macro;
   
-  
+  // Multiplexador
+  assign mux_macro = (sinal_macro) ? botoes : micro;
   // Registrador macro
   registrador_9 registradorMacro(
 		.clock(clock),
 		.clear(zeraR_macro),
 		.enable(registraR_macro),
-		.D(botoes),
+		.D(mux_macro),
 		.Q(macro)
   );
 
@@ -55,6 +62,29 @@ wire[8:0] micro;
     .sinal(sinal),
     .pulso(tem_jogada)
     );
+  
+  // Conversor de botoes para binario
+  conversor conversor(
+    .botoes(micro),
+    .binario(endereco_macro)
+  )
+
+  // Memoria do estado do tabuleiro
+  ram_board_state ram_board_state(
+    .clock(clock),
+    .we(1'b0),
+    .addr(endereco_macro),
+    .data(2'b00),
+    .q(estado_macro)
+  );
+
+  // 01, 10, e 11 sao celulas vencidas
+  // 00 eh celula em andamento
+  // AND entre bits do estado_macro
+  assign escolhe_macro = (estado_macro[0] & estado_macro[1]);
+
+  // TODO: FIM DO JOGO
+  assign fim_jogo = 1'b0;
 
 assign leds = botoes;
   
