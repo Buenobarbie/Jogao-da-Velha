@@ -1,5 +1,10 @@
 # Semana 2
 
+## Criação do estado preparação
+
+Estado para zerar todos os sinais necessários e servir como
+estado de início de cada nova rodada.
+
 ## Alternância de jogador
 
 Dois sinais, um para o Jogador1 e outro para o Jogador2, deverão acender
