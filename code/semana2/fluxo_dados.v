@@ -6,6 +6,7 @@ input        zeraR_micro,
 input        zeraR_macro,
 input        registraR_micro, 
 input        registraR_macro,
+input        sinal_macro,
   
 output       tem_jogada,
 output       escolhe_macro,
@@ -24,6 +25,23 @@ wire[8:0] micro;
 wire estado_macro;
 wire endereco_macro;
 wire mux_macro;
+
+  // Geração do sinal dos botoes
+  assign sinal = (botoes[0] ^ botoes[1] ^ botoes[2]
+                ^ botoes[3] ^ botoes[4] ^ botoes[5] 
+                ^ botoes[6] ^ botoes[7] ^ botoes[8]);
+                
+  assign db_tem_jogada = sinal; 
+  
+
+  // Deteccao da jogada
+ edge_detector edge_detector(
+    .clock(clock),
+    .reset(zeraEdge),
+    .sinal(sinal),
+    .pulso(tem_jogada)
+    );
+  
   
   // Multiplexador
   assign mux_macro = (sinal_macro) ? botoes : micro;
@@ -46,23 +64,6 @@ wire mux_macro;
 		.Q(micro)
   );
 
-
-  // Geração do sinal dos botoes
-  assign sinal = (botoes[0] ^ botoes[1] ^ botoes[2]
-                ^ botoes[3] ^ botoes[4] ^ botoes[5] 
-                ^ botoes[6] ^ botoes[7] ^ botoes[8]);
-                
-  assign db_tem_jogada = sinal; 
-  
-
-  // edge detector
- edge_detector edge_detector(
-    .clock(clock),
-    .reset(zeraEdge),
-    .sinal(sinal),
-    .pulso(tem_jogada)
-    );
-  
   // Conversor de botoes para binario
   conversor conversor(
     .botoes(micro),
@@ -78,9 +79,9 @@ wire mux_macro;
     .q(estado_macro)
   );
 
+  // AND entre bits do estado_macro
   // 01, 10, e 11 sao celulas vencidas
   // 00 eh celula em andamento
-  // AND entre bits do estado_macro
   assign escolhe_macro = (estado_macro[0] & estado_macro[1]);
 
   // TODO: FIM DO JOGO

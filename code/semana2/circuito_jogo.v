@@ -29,14 +29,21 @@ wire [3:0] estado_out;
 wire [8:0] macro_out;
 wire [8:0] micro_out;
 
-
+wire fim_jogo;
+wire escolhe_macro;
+wire sinal_macro;
+wire troca_jogador;
 
 // Unidade de controle ------------------------------
 unidade_controle unidade_controle(
-	 .clock              (clock),
-	 .reset              (reset),
-	 .iniciar            (iniciar),
+	.clock              (clock),
+	.reset              (reset),
+	.iniciar            (iniciar),
     .tem_jogada         (tem_jogada),
+    .fim_jogo          (fim_jogo),
+    .escolhe_macro     (escolhe_macro),
+    .sinal_macro       (sinal_macro),
+    .troca_jogador     (troca_jogador),
     .zeraR_macro        (zeraR_macro),
     .zeraR_micro        (zeraR_micro),
     .zeraEdge           (zeraEdge),
@@ -57,7 +64,10 @@ fluxo_dados fluxo_dados (
     .zeraR_micro      ( zeraR_micro),
     .registraR_macro  ( registraR_macro),
     .registraR_micro  ( registraR_micro),
+    .sinal_macro      ( sinal_macro),
     .tem_jogada       ( tem_jogada),
+    .escolhe_macro    ( escolhe_macro),
+    .fim_jogo         ( fim_jogo),
     .leds             ( leds),
     .db_macro         ( macro_out),
     .db_micro         ( micro_out)
