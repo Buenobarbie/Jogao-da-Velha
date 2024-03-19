@@ -51,7 +51,7 @@ module unidade_controle (
             joga_micro:           Eprox = (tem_jogada) ? registra_micro : joga_micro;
             registra_micro:       Eprox = trocar_jogador;
             trocar_jogador:        Eprox = (fim_jogo) ? fim : decide_macro;
-            decide_macro:         Eprox = (escolhe_macro) ? preparacao : registra_macro;
+            decide_macro:         Eprox = (escolhe_macro) ? preparacao : joga_micro;
             fim:                  Eprox = (iniciar) ? inicial : fim;
             
             default:              Eprox = inicial;
@@ -63,12 +63,12 @@ module unidade_controle (
         zeraR_macro     = (Eatual == inicial || Eatual == preparacao) ? 1'b1 : 1'b0; 
         zeraR_micro     = (Eatual == inicial || Eatual == preparacao || Eatual == decide_macro) ? 1'b1 : 1'b0;
         zeraEdge        = (Eatual == inicial) ? 1'b1 : 1'b0;
-        registraR_macro = (Eatual == registra_macro) ? 1'b1 : 1'b0;
+        registraR_macro = (Eatual == registra_macro || Eatual == decide_macro) ? 1'b1 : 1'b0;
         registraR_micro = (Eatual == registra_micro) ? 1'b1 : 1'b0;
         pronto          = (Eatual == fim) ? 1'b1 : 1'b0;
         jogar_macro     = (Eatual == joga_macro) ? 1'b1 : 1'b0;
         jogar_micro     = (Eatual == joga_micro) ? 1'b1 : 1'b0;
-        sinal_macro     = (Eatual == joga_macro) ? 1'b1 : 1'b0;
+        sinal_macro     = (Eatual == joga_macro || Eatual == registra_macro) ? 1'b1 : 1'b0;
 
 
         // Saida de depuracao (estado)
