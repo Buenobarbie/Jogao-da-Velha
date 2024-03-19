@@ -84,6 +84,15 @@ wire mux_macro;
   // 00 eh celula em andamento
   assign escolhe_macro = (estado_macro[0] & estado_macro[1]);
 
+  // // Troca de jogador
+  // flipflop_t flipflop_t(
+  //   .clk(clock),
+  //   .clear(zeraFlipFlopT),
+  //   .t(troca_jogador),
+  //   .q(jogador_atual)
+  // );
+
+
   // TODO: FIM DO JOGO
   assign fim_jogo = 1'b0;
 
