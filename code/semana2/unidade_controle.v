@@ -26,7 +26,7 @@ module unidade_controle (
     parameter registra_macro       = 4'b0011;  // 3
     parameter joga_micro           = 4'b0100;  // 4
     parameter registra_micro       = 4'b0101;  // 5 
-    parameter troca_jogador        = 4'b0110;  // 6
+    parameter trocar_jogador        = 4'b0110;  // 6
     parameter decide_macro         = 4'b0111;  // 7
     parameter fim                  = 4'b1111;  // F
 
@@ -49,8 +49,8 @@ module unidade_controle (
             joga_macro:           Eprox = (tem_jogada) ? registra_macro : joga_macro;
             registra_macro:       Eprox = joga_micro;
             joga_micro:           Eprox = (tem_jogada) ? registra_micro : joga_micro;
-            registra_micro:       Eprox = troca_jogador;
-            troca_jogador:        Eprox = (fim_jogo) ? fim : decide_macro;
+            registra_micro:       Eprox = trocar_jogador;
+            trocar_jogador:        Eprox = (fim_jogo) ? fim : decide_macro;
             decide_macro:         Eprox = (escolhe_macro) ? preparacao : registra_macro;
             fim:                  Eprox = (iniciar) ? inicial : fim;
             
@@ -78,7 +78,7 @@ module unidade_controle (
             registra_macro:       db_estado = registra_macro;  
             joga_micro:           db_estado = joga_micro;      
             registra_micro:       db_estado = registra_micro; 
-            troca_jogador:        db_estado = troca_jogador;
+            trocar_jogador:        db_estado = trocar_jogador;
             decide_macro:         db_estado = decide_macro; 
             fim:                  db_estado = fim;             
             

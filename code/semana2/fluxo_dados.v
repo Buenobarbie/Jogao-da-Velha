@@ -22,7 +22,7 @@ wire sinal;
 wire[8:0] macro;
 wire[8:0] micro;
 
-wire estado_macro;
+wire [1:0] estado_macro;
 wire endereco_macro;
 wire mux_macro;
 
@@ -68,11 +68,11 @@ wire mux_macro;
   conversor conversor(
     .botoes(micro),
     .binario(endereco_macro)
-  )
+  );
 
   // Memoria do estado do tabuleiro
   ram_board_state ram_board_state(
-    .clock(clock),
+    .clk(clock),
     .we(1'b0),
     .addr(endereco_macro),
     .data(2'b00),
