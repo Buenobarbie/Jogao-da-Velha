@@ -68,6 +68,7 @@ module unidade_controle (
         pronto          = (Eatual == fim) ? 1'b1 : 1'b0;
         jogar_macro     = (Eatual == joga_macro) ? 1'b1 : 1'b0;
         jogar_micro     = (Eatual == joga_micro) ? 1'b1 : 1'b0;
+        sinal_macro     = (Eatual == joga_macro) ? 1'b1 : 1'b0;
 
 
         // Saida de depuracao (estado)

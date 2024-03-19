@@ -23,8 +23,8 @@ wire[8:0] macro;
 wire[8:0] micro;
 
 wire [1:0] estado_macro;
-wire endereco_macro;
-wire mux_macro;
+wire [3:0] endereco_macro;
+wire [8:0] mux_macro;
 
   // Geração do sinal dos botoes
   assign sinal = (botoes[0] ^ botoes[1] ^ botoes[2]
@@ -79,10 +79,10 @@ wire mux_macro;
     .q(estado_macro)
   );
 
-  // AND entre bits do estado_macro
+  // OR entre bits do estado_macro
   // 01, 10, e 11 sao celulas vencidas
   // 00 eh celula em andamento
-  assign escolhe_macro = (estado_macro[0] & estado_macro[1]);
+  assign escolhe_macro = (estado_macro[0] || estado_macro[1]);
 
   // // Troca de jogador
   // flipflop_t flipflop_t(
