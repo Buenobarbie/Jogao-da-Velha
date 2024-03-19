@@ -8,6 +8,7 @@ module unidade_controle (
     input      escolhe_macro,
     output reg sinal_macro,
     output reg troca_jogador,
+    output reg zeraFlipFlopT,
     output reg zeraR_macro,
     output reg zeraR_micro,
     output reg zeraEdge,
@@ -26,7 +27,7 @@ module unidade_controle (
     parameter registra_macro       = 4'b0011;  // 3
     parameter joga_micro           = 4'b0100;  // 4
     parameter registra_micro       = 4'b0101;  // 5 
-    parameter trocar_jogador        = 4'b0110;  // 6
+    parameter trocar_jogador        = 4'b0110; // 6
     parameter decide_macro         = 4'b0111;  // 7
     parameter fim                  = 4'b1111;  // F
 
@@ -61,7 +62,7 @@ module unidade_controle (
     // Logica de saida (maquina Moore)
     always @* begin
         zeraR_macro     = (Eatual == inicial || Eatual == preparacao) ? 1'b1 : 1'b0; 
-        zeraR_micro     = (Eatual == inicial || Eatual == preparacao || Eatual == decide_macro) ? 1'b1 : 1'b0;
+        zeraR_micro     = (Eatual == inicial || Eatual == preparacao || Eatual == joga_mic) ? 1'b1 : 1'b0;
         zeraEdge        = (Eatual == inicial) ? 1'b1 : 1'b0;
         registraR_macro = (Eatual == registra_macro || Eatual == decide_macro) ? 1'b1 : 1'b0;
         registraR_micro = (Eatual == registra_micro) ? 1'b1 : 1'b0;
@@ -69,6 +70,8 @@ module unidade_controle (
         jogar_macro     = (Eatual == joga_macro) ? 1'b1 : 1'b0;
         jogar_micro     = (Eatual == joga_micro) ? 1'b1 : 1'b0;
         sinal_macro     = (Eatual == joga_macro || Eatual == registra_macro) ? 1'b1 : 1'b0;
+        troca_jogador   = (Eatual == trocar_jogador) ? 1'b1 : 1'b0;
+        zeraFlipFlopT   = (Eatual == inicial) ? 1'b1 : 1'b0;
 
 
         // Saida de depuracao (estado)

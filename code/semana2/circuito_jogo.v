@@ -10,7 +10,9 @@ module circuito_jogo (
  output       jogar_micro,
  output [6:0] db_macro,
  output [6:0] db_micro,
- output [6:0] db_estado
+ output [6:0] db_estado, 
+ output [6:0] db_jogador,
+ output [6:0] db_J
 );
 
 
@@ -33,6 +35,8 @@ wire fim_jogo;
 wire escolhe_macro;
 wire sinal_macro;
 wire troca_jogador;
+wire zeraFlipFlopT;
+wire jogador_atual;
 
 // Unidade de controle ------------------------------
 unidade_controle unidade_controle(
@@ -40,10 +44,11 @@ unidade_controle unidade_controle(
 	.reset              (reset),
 	.iniciar            (iniciar),
     .tem_jogada         (tem_jogada),
-    .fim_jogo          (fim_jogo),
-    .escolhe_macro     (escolhe_macro),
-    .sinal_macro       (sinal_macro),
-    .troca_jogador     (troca_jogador),
+    .fim_jogo           (fim_jogo),
+    .escolhe_macro      (escolhe_macro),
+    .sinal_macro        (sinal_macro),
+    .troca_jogador      (troca_jogador),
+    .zeraFlipFlopT      (zeraFlipFlopT),
     .zeraR_macro        (zeraR_macro),
     .zeraR_micro        (zeraR_micro),
     .zeraEdge           (zeraEdge),
@@ -60,14 +65,17 @@ fluxo_dados fluxo_dados (
     .clock            ( clock),
     .botoes           ( botoes),
     .zeraEdge         ( zeraEdge),
-    .zeraR_macro      ( zeraR_macro), 
     .zeraR_micro      ( zeraR_micro),
+    .zeraR_macro      ( zeraR_macro), 
+    .troca_jogador    ( troca_jogador),
+    .zeraFlipFlopT    ( zeraFlipFlopT),
     .registraR_macro  ( registraR_macro),
     .registraR_micro  ( registraR_micro),
     .sinal_macro      ( sinal_macro),
     .tem_jogada       ( tem_jogada),
     .escolhe_macro    ( escolhe_macro),
     .fim_jogo         ( fim_jogo),
+    .jogador_atual    ( jogador_atual),
     .leds             ( leds),
     .db_macro         ( macro_out),
     .db_micro         ( micro_out)
@@ -91,6 +99,17 @@ hexa7seg HEX2(
 	.display(db_estado)
 );
 
+// Display3 -----------------------------------
+hexa7seg_jogador HEX3(
+    .jogador(jogador_atual),
+    .display(db_jogador)
+); 
+
+// Display4 -----------------------------------
+hexa7seg_J HEX4(
+    .habilita_J(1'b1),
+    .J(db_J)
+);
 
 assign db_tem_jogada = tem_jogada;
 

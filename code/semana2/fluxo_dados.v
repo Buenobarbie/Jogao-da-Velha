@@ -4,6 +4,8 @@ input [8:0]  botoes,
 input        zeraEdge,
 input        zeraR_micro,
 input        zeraR_macro,
+input       troca_jogador,
+input        zeraFlipFlopT,
 input        registraR_micro, 
 input        registraR_macro,
 input        sinal_macro,
@@ -11,6 +13,7 @@ input        sinal_macro,
 output       tem_jogada,
 output       escolhe_macro,
 output       fim_jogo,
+output       jogador_atual,
 output [8:0] leds,
 output [8:0] db_macro, 
 output [8:0] db_micro
@@ -84,13 +87,13 @@ wire [8:0] mux_macro;
   // 00 eh celula em andamento
   assign escolhe_macro = (estado_macro[0] || estado_macro[1]);
 
-  // // Troca de jogador
-  // flipflop_t flipflop_t(
-  //   .clk(clock),
-  //   .clear(zeraFlipFlopT),
-  //   .t(troca_jogador),
-  //   .q(jogador_atual)
-  // );
+  // Troca de jogador
+  flipflop_t flipflop_t(
+    .clk(clock),
+    .clear(zeraFlipFlopT),
+    .t(troca_jogador),
+    .q(jogador_atual)
+  );
 
 
   // TODO: FIM DO JOGO

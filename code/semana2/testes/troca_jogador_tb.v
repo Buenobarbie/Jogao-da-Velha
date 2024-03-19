@@ -1,7 +1,7 @@
 /*
-* # Cenario de Teste 2 #
-* Jogar em uma célula micro
-* que corresponde a uma macro vencida
+* # Cenario de Teste 3 #
+* Observar a mudança de jogador
+* a cada rodada macro/micro
 */
 
 `timescale 1ns/1ns
@@ -20,6 +20,8 @@ module celula_vencida_tb;
     wire       jogar_macro_out;
     wire       jogar_micro_out;
 
+    wire [6:0] db_jogador_out;
+    wire [6:0] db_J;
     wire [6:0] db_estado_out   ;
     wire [6:0] db_macro_out    ;
     wire [6:0] db_micro_out     ;
@@ -40,14 +42,16 @@ module celula_vencida_tb;
       .reset          ( reset_in    ),
       .iniciar        ( iniciar_in  ),
       .botoes         ( botoes_in   ),
-      .pronto         ( pronto_out  ),
       .leds           ( leds_out    ),
+      .pronto         ( pronto_out  ),
       .db_tem_jogada  (db_tem_jogada_out ),
       .jogar_macro    (jogar_macro_out),
       .jogar_micro    (jogar_micro_out),
       .db_macro       (db_macro_out),
       .db_micro       (db_micro_out),
-      .db_estado      (db_estado_out)
+      .db_estado      (db_estado_out),
+      .db_jogador     (db_jogador_out),
+      .db_J           (db_J)
 
     );
 
