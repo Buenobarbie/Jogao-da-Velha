@@ -13,7 +13,7 @@ module ram_board_tb;
     // valores iniciais para fins de simulacao (ModelSim)
     reg        clock_in   = 1;
     reg        we_in      = 0;
-    reg        data_in    = 2'b00; 
+    reg  [1:0] data_in    = 2'b00; 
     reg  [3:0] addr_macro_in = 4'b0000;
     reg  [3:0] addr_micro_in = 4'b0000;
 
@@ -32,7 +32,7 @@ module ram_board_tb;
 
     // instanciacao do DUT (Device Under Test)
     ram_board dut (
-      .clock          ( clock_in    ),
+      .clk            (clock_in),
       .we             (we_in),
       .data           (data_in),
       .addr_macro     (addr_macro_in),
@@ -62,13 +62,13 @@ module ram_board_tb;
       @(negedge clock_in);
       addr_macro_in = 4'b0010;
       addr_micro_in = 4'b0001;
-      data = 2'b01;
-      we = 1
+      data_in = 2'b01;
+      we_in = 1;
       #(5*clockPeriod);
       addr_macro_in = 4'b0000;
       addr_micro_in = 4'b0000;
-      data = 2'b00;
-      we = 0
+      data_in = 2'b00;
+      we_in = 0;
       #(5*clockPeriod);
 
       // Teste 2. Jogadro 1 jogar em 2 2
@@ -77,13 +77,13 @@ module ram_board_tb;
       @(negedge clock_in);
       addr_macro_in = 4'b0010;
       addr_micro_in = 4'b0010;
-      data = 2'b01;
-      we = 1
+      data_in = 2'b01;
+      we_in = 1;
       #(5*clockPeriod);
       addr_macro_in = 4'b0000;
       addr_micro_in = 4'b0000;
-      data = 2'b00;
-      we = 0
+      data_in = 2'b00;
+      we_in = 0;
       #(5*clockPeriod);
 
       // Teste 3. Jogadro 1 jogar em 2 3
@@ -92,13 +92,13 @@ module ram_board_tb;
       @(negedge clock_in);
       addr_macro_in = 4'b0010;
       addr_micro_in = 4'b0011;
-      data = 2'b01;
-      we = 1
+      data_in = 2'b01;
+      we_in = 1;
       #(5*clockPeriod);
       addr_macro_in = 4'b0000;
       addr_micro_in = 4'b0000;
-      data = 2'b00;
-      we = 0
+      data_in = 2'b00;
+      we_in = 0;
       #(5*clockPeriod);
 
 
