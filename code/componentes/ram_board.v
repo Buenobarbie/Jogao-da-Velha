@@ -42,8 +42,8 @@ module ram_board
 
     integer i, j;
 
-    for(i=0; i<10; i++) begin
-        for(j=0; j<10; j++) begin
+    for(i=0; i<10; i=i+1) begin
+        for(j=0; j<10; j=j+1) begin
             ram[i][j] <= 2'b00;
         end
     end
