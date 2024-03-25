@@ -62,13 +62,13 @@ module unidade_controle (
             inicial:              Eprox = (iniciar) ? preparacao : inicial;
             preparacao:           Eprox = joga_macro;
             joga_macro:           Eprox = (tem_jogada) ? registra_macro : joga_macro;
-            registra_macro:       Eprox = valida_macro	
+            registra_macro:       Eprox = valida_macro;
             valida_macro:         Eprox = (!fimT) ? valida_macro : (macro_vencida) ? preparacao : joga_micro;
             joga_micro:           Eprox = (tem_jogada) ? registra_micro : joga_micro;
             registra_micro:       Eprox = valida_micro;
             valida_micro:         Eprox = (!fimT) ? valida_micro : (micro_jogada) ? joga_micro : registra_jogada;
             registra_jogada:      Eprox = verifica_macro;
-            verifica_macro        Eprox = registra_resultado;
+            verifica_macro:       Eprox = registra_resultado;
             registra_resultado:   Eprox = verifica_tabuleiro;
             verifica_tabuleiro:   Eprox = (fim_jogo) ? fim : trocar_jogador;
             trocar_jogador:       Eprox = decide_macro;
@@ -92,7 +92,7 @@ module unidade_controle (
         sinal_macro        = (Eatual == joga_macro || Eatual == registra_macro) ? 1'b1 : 1'b0;
         troca_jogador      = (Eatual == trocar_jogador) ? 1'b1 : 1'b0;
         zeraFlipFlopT      = (Eatual == inicial) ? 1'b1 : 1'b0;
-        sinal_valida_macro = (Eatual == registra_macro || Eatual == valida_macro || Eatual == temp) ? 1'b1 : 1'b0;
+        sinal_valida_macro = (Eatual == registra_macro || Eatual == valida_macro) ? 1'b1 : 1'b0;
         zeraT              = (Eatual == inicial || Eatual == registra_macro || Eatual == registra_micro ) ? 1'b1 : 1'b0;
         contaT             = (Eatual == valida_macro || Eatual == valida_micro) ? 1'b1 : 1'b0;
         we_board           = (Eatual == registra_jogada) ? 1'b1 : 1'b0;
@@ -105,7 +105,7 @@ module unidade_controle (
             preparacao:            db_estado = preparacao;         // 1
             joga_macro:            db_estado = joga_macro;         // 2
             registra_macro:        db_estado = registra_macro;     // 3 
-            valida_macro           db_estado = valida_macro;       // 4
+            valida_macro:          db_estado = valida_macro;       // 4
             joga_micro:            db_estado = joga_micro;         // 5 
             registra_micro:        db_estado = registra_micro;     // 6
             valida_micro:          db_estado = valida_micro;       // 7

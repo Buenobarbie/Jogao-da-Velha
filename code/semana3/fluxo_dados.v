@@ -114,7 +114,7 @@ wire [1:0] estado_jogo;
     .we(we_board_state),
     .addr(macro),
     .data(estado_macro),
-    .q(estado_jogo)
+    .state_final(estado_jogo)
   );
 
   assign fim_jogo = estado_jogo[0] || estado_jogo[1];
