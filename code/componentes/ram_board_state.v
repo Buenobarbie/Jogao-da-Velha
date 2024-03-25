@@ -31,6 +31,10 @@ module ram_board_state
     // Registra endereco de acesso
     reg [3:0] addr_reg;
 
+    reg jogador1_ganhou;
+    reg jogador2_ganhou;
+    reg empate;
+
     initial 
     begin : INICIA_RAM
  
@@ -78,9 +82,6 @@ module ram_board_state
 
         addr_reg <= addr;
     end
-
-    // Atribuicao continua retorna dado
-    assign state_final = ram[addr_reg];
     
     // Update state
     assign state_final = (jogador1_ganhou || jogador2_ganhou) ? {jogador2_ganhou, jogador1_ganhou} :
