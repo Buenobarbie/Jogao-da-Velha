@@ -11,12 +11,12 @@ module flipflop_t (
     input clk, 
     input clear, 
     input t, 
-    output reg [1:0] q
+    output reg q
 ); 
 
     always @ (posedge clk) begin 
       if (clear)
-        q <= 2'b01;
+        q <= 0;
       else
         if(t)
           q <= ~q; 

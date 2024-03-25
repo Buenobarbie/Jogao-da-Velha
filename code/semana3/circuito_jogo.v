@@ -36,9 +36,16 @@ wire macro_vencida;
 wire sinal_macro;
 wire troca_jogador;
 wire zeraFlipFlopT;
-wire jogador_atual;
+wire [1:0] jogador_atual;
+wire micro_jogada;
 
 wire sinal_valida_macro;
+wire fimT;
+
+wire zeraT;
+wire contaT;
+wire we_board;
+wire we_board_state;
 
 // Unidade de controle ------------------------------
 unidade_controle unidade_controle(
@@ -48,41 +55,50 @@ unidade_controle unidade_controle(
     .tem_jogada         (tem_jogada),
     .fim_jogo           (fim_jogo),
     .macro_vencida      (macro_vencida),
+    .micro_jogada       (micro_jogada),
+    .fimT               (fimT),
     .sinal_macro        (sinal_macro),
+    .sinal_valida_macro (sinal_valida_macro),
     .troca_jogador      (troca_jogador),
     .zeraFlipFlopT      (zeraFlipFlopT),
     .zeraR_macro        (zeraR_macro),
     .zeraR_micro        (zeraR_micro),
     .zeraEdge           (zeraEdge),
+    .zeraT              (zeraT),
+    .contaT             (contaT),
     .registraR_macro    (registraR_macro),
     .registraR_micro    (registraR_micro),
+    .we_board           (we_board),
+    .we_board_state     (we_board_state),
     .pronto             (pronto),
     .jogar_macro        (jogar_macro),
     .jogar_micro        (jogar_micro),
-    .db_estado          (estado_out),
-    .sinal_valida_macro (sinal_valida_macro)
+    .db_estado          (estado_out)
 ); 
 
 // Fluxo de Dados ------------------------------
 fluxo_dados fluxo_dados (
-    .clock            ( clock),
-    .botoes           ( botoes),
-    .zeraEdge         ( zeraEdge),
-    .zeraR_micro      ( zeraR_micro),
-    .zeraR_macro      ( zeraR_macro), 
-    .troca_jogador    ( troca_jogador),
-    .zeraFlipFlopT    ( zeraFlipFlopT),
-    .registraR_macro  ( registraR_macro),
-    .registraR_micro  ( registraR_micro),
-    .sinal_macro      ( sinal_macro),
-    .tem_jogada       ( tem_jogada),
-    .macro_vencida    ( macro_vencida),
-    .fim_jogo         ( fim_jogo),
-    .jogador_atual    ( jogador_atual),
-    .leds             ( leds),
-    .db_macro         ( macro_out),
-    .db_micro         ( micro_out),
-    .sinal_valida_macro(sinal_valida_macro)
+    .clock              ( clock),
+    .botoes             ( botoes),
+    .zeraEdge           ( zeraEdge),
+    .zeraR_micro        ( zeraR_micro),
+    .zeraR_macro        ( zeraR_macro), 
+    .troca_jogador      ( troca_jogador),
+    .zeraFlipFlopT      ( zeraFlipFlopT),
+    .registraR_macro    ( registraR_macro),
+    .registraR_micro    ( registraR_micro),
+    .sinal_macro        ( sinal_macro),
+    .we_board           ( we_board),
+    .we_board_state     ( we_board_state),
+    contaT              ( contaT),
+    .tem_jogada         ( tem_jogada),
+    .macro_vencida      ( macro_vencida),
+    .fim_jogo           ( fim_jogo),
+    .jogador_atual      ( jogador_atual),
+    .leds               ( leds),
+    .db_macro           ( macro_out ),
+    .db_micro           ( micro_out ),
+    .sinal_valida_macro ( sinal_valida_macro )
 );
 
 // Display0 -----------------------------------
