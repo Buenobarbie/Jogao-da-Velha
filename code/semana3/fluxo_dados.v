@@ -23,7 +23,8 @@ output       fimT,
 output [1:0] jogador_atual,
 output [8:0] leds,
 output [8:0] db_macro, 
-output [8:0] db_micro
+output [8:0] db_micro,
+output [1:0] db_resultado
 );
 
 // Edge Detector
@@ -152,6 +153,8 @@ wire [1:0]saida_ram_state;
 
   // Verifica se o jogo acabou
   assign fim_jogo = estado_jogo[0] || estado_jogo[1];
+
+  assign db_resultado = estado_jogo;
   
   // --------------- TROCAR JOGADOR --------------------
   // Troca de jogador

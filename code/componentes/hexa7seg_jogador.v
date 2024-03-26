@@ -1,5 +1,5 @@
 module hexa7seg_jogador (jogador, display);
-    input      jogador;
+    input      [1:0] jogador;
     output reg [6:0] display;
     
    /* DISPLAY jogador - mostra de qual jogador é a vez
@@ -22,8 +22,10 @@ module hexa7seg_jogador (jogador, display);
 
     always @ (jogador) 
         case(jogador)
-            1'b0:    display = 7'b1111001; // 1
-            1'b1:    display = 7'b0100100; // 2
+            2'b01:    display = 7'b1111001; // 1
+            2'b10:    display = 7'b0100100; // 2
+            2'b11:    display = 7'bb0000110;// E
+
 
             default: display = 7'b0111111; // -
         endcase

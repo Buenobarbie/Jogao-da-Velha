@@ -12,7 +12,8 @@ module circuito_jogo (
  output [6:0] db_micro,
  output [6:0] db_estado, 
  output [6:0] db_jogador,
- output [6:0] db_J
+ output [6:0] db_J,
+ output [6:0] db_resultado
 );
 
 
@@ -46,6 +47,8 @@ wire zeraT;
 wire contaT;
 wire we_board;
 wire we_board_state;
+
+wire resultado_out;
 
 // Unidade de controle ------------------------------
 unidade_controle unidade_controle(
@@ -101,7 +104,8 @@ fluxo_dados fluxo_dados (
     .leds               ( leds),
     .db_macro           ( macro_out ),
     .db_micro           ( micro_out ),
-    .sinal_valida_macro ( sinal_valida_macro )
+    .sinal_valida_macro ( sinal_valida_macro ),
+    .db_resultado       ( resultado_out ),
 );
 
 // Display0 -----------------------------------
@@ -132,6 +136,12 @@ hexa7seg_jogador HEX3(
 hexa7seg_J HEX4(
     .habilita_J(1'b1),
     .J(db_J)
+);
+
+// Display5 -----------------------------------
+hexa7seg_jogador HEX5(
+    .hexa(resultado_out),
+    .display(db_resultado)
 );
 
 assign db_tem_jogada = tem_jogada;
