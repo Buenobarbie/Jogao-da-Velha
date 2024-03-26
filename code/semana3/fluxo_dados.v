@@ -41,13 +41,18 @@ wire [1:0] estado_macro;
 
 wire [1:0] estado_jogo;
 
+wire [3:0] addr_macro;
+wire [3:0] addr_micro;
+
+wire [1:0]saida_ram_state;
+
   // Memória do tabuleiro
   ram_board ram_board(
     .clk(clock),
     .we(we_board),
     .data(jogador_atual),
-    .addr_macro(macro),
-    .addr_micro(micro),
+    .addr_macro(addr_macro),
+    .addr_micro(addr_micro),
     .q(estado_micro),
     .state(estado_macro)
   );
@@ -55,7 +60,7 @@ wire [1:0] estado_jogo;
   // OR entre bits do estado_macro
   // 01, 10, e 11 sao celulas vencidas
   // 00 eh celula em andamento
-  assign macro_vencida = (estado_macro[0] || estado_macro[1]);
+  assign macro_vencida = (saida_ram_state[0] || saida_ram_state[1]);
 
   assign micro_jogada = (estado_micro[0] || estado_micro[1]);
 
@@ -108,13 +113,25 @@ wire [1:0] estado_jogo;
     .binario(endereco_macro)
   );
 
+  // Enderecos da memoria
+    conversor conversor_addr_macro(
+    .botoes(macro),
+    .binario(addr_macro)
+  );
+
+    conversor conversor_addr_micro(
+    .botoes(micro),
+    .binario(addr_micro)
+  );
+
   // Memoria do estado do tabuleiro
   ram_board_state ram_board_state(
     .clk(clock),
     .we(we_board_state),
-    .addr(macro),
+    .addr(endereco_macro),
     .data(estado_macro),
-    .state_final(estado_jogo)
+    .state_final(estado_jogo),
+    .Q(saida_ram_state)
   );
 
   assign fim_jogo = estado_jogo[0] || estado_jogo[1];
