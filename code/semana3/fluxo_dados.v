@@ -26,13 +26,17 @@ output [8:0] db_macro,
 output [8:0] db_micro
 );
 
+// Edge Detector
 wire sinal;
 
+// Registrador Macro
+wire [8:0] mux_macro;
 wire[8:0] macro;
+
+// Registrador Micro
 wire[8:0] micro;
 
 wire [3:0] endereco_macro;
-wire [8:0] mux_macro;
 
 wire [8:0] conversor_in;
 
@@ -46,6 +50,63 @@ wire [3:0] addr_micro;
 
 wire [1:0]saida_ram_state;
 
+
+  // ------------ DETECTAR A JOGADA ---------------------
+
+  // Geração do sinal dos botoes
+  assign sinal = (botoes[0] ^ botoes[1] ^ botoes[2]
+                ^ botoes[3] ^ botoes[4] ^ botoes[5] 
+                ^ botoes[6] ^ botoes[7] ^ botoes[8]);
+                
+  assign db_tem_jogada = sinal; 
+
+  // Deteccao da jogada
+ edge_detector edge_detector(
+    .clock(clock),
+    .reset(zeraEdge),
+    .sinal(sinal),
+    .pulso(tem_jogada)
+    );
+
+  // ----------- REGISTRAR A JOGADA MACRO ----------------
+  // Multiplexador
+  // Registra jogada manual(botoes) ou automatica (micro)
+  assign mux_macro = (sinal_macro) ? botoes : micro;
+
+  // Registrador macro
+  registrador_9 registradorMacro(
+		.clock(clock),
+		.clear(zeraR_macro),
+		.enable(registraR_macro),
+		.D(mux_macro),
+		.Q(macro)
+  );
+
+  // ----------- REGISTRAR A JOGADA MICRO ----------------
+  // Registrador micro
+  registrador_9 registradorMicro(
+		.clock(clock),
+		.clear(zeraR_micro),
+		.enable(registraR_micro),
+		.D(botoes),
+		.Q(micro)
+  );
+
+  // ----------- REGISTRAR A JOGADA NO TABULEIRO --------------------
+
+  // ## Converter jogada para enderecos
+  // Converter macro em addr_macro
+    conversor conversor_addr_macro(
+    .botoes(macro),
+    .binario(addr_macro)
+  );
+
+  // Converter micro em addr_micro
+    conversor conversor_addr_micro(
+    .botoes(micro),
+    .binario(addr_micro)
+  );
+
   // Memória do tabuleiro
   ram_board ram_board(
     .clk(clock),
@@ -57,72 +118,33 @@ wire [1:0]saida_ram_state;
     .state(estado_macro)
   );
 
-  // OR entre bits do estado_macro
-  // 01, 10, e 11 sao celulas vencidas
-  // 00 eh celula em andamento
-  assign macro_vencida = (saida_ram_state[0] || saida_ram_state[1]);
+  // -------------- VALIDAR JOGADA MICRO --------------------
 
+  // Verifica se a micro esta disponivel
+  // 1: micro já possui jogada
+  // 0: micro está disponível
   assign micro_jogada = (estado_micro[0] || estado_micro[1]);
 
-  // Geração do sinal dos botoes
-  assign sinal = (botoes[0] ^ botoes[1] ^ botoes[2]
-                ^ botoes[3] ^ botoes[4] ^ botoes[5] 
-                ^ botoes[6] ^ botoes[7] ^ botoes[8]);
-                
-  assign db_tem_jogada = sinal; 
-  
 
-  // Deteccao da jogada
- edge_detector edge_detector(
-    .clock(clock),
-    .reset(zeraEdge),
-    .sinal(sinal),
-    .pulso(tem_jogada)
-    );
-  
-  
-  // Multiplexador
-  assign mux_macro = (sinal_macro) ? botoes : micro;
-  // Registrador macro
-  registrador_9 registradorMacro(
-		.clock(clock),
-		.clear(zeraR_macro),
-		.enable(registraR_macro),
-		.D(mux_macro),
-		.Q(macro)
-  );
-
-
-   // Registrador micro
-  registrador_9 registradorMicro(
-		.clock(clock),
-		.clear(zeraR_micro),
-		.enable(registraR_micro),
-		.D(botoes),
-		.Q(micro)
-  );
+  // -------------- VALIDA JOGADA MACRO --------------------
 
   // Multiplexador
   // 0 : Validar jogada automatica (micro)
   // 1 : Validar jogada manual  (macro)
   assign conversor_in = (sinal_valida_macro) ? macro : micro;
 
-  // Conversor de botoes para binario
+  // Convere a jogada em endereco
   conversor conversor(
     .botoes(conversor_in),
     .binario(endereco_macro)
   );
 
-  // Enderecos da memoria
-    conversor conversor_addr_macro(
-    .botoes(macro),
-    .binario(addr_macro)
-  );
+  // OR entre bits do estado_macro
+  // 01, 10, e 11 sao celulas vencidas
+  // 00 eh celula em andamento
+  assign macro_vencida = (saida_ram_state[0] || saida_ram_state[1]);
 
-    conversor conversor_addr_micro(
-    .botoes(micro),
-    .binario(addr_micro)
-  );
+  // --------------- MEMORIA DOS JOGOS DO TABULEIRO --------------------
 
   // Memoria do estado do tabuleiro
   ram_board_state ram_board_state(
@@ -134,8 +156,10 @@ wire [1:0]saida_ram_state;
     .Q(saida_ram_state)
   );
 
+  // Verifica se o jogo acabou
   assign fim_jogo = estado_jogo[0] || estado_jogo[1];
-
+  
+  // --------------- TROCAR JOGADOR --------------------
   // Troca de jogador
   flipflop_t flipflop_t(
     .clk(clock),
@@ -144,8 +168,8 @@ wire [1:0]saida_ram_state;
     .q(jogador_atual)
   );
 
-  // Timer 
-
+  // --------------- TEMPORIZADOR -------------------- 
+  // Tempo de espera para atualizacao do sinal
     contador_m #(5, 3)temporizador(
     .clock(clock),
     .zera_as(zeraT),
@@ -156,10 +180,10 @@ wire [1:0]saida_ram_state;
     .meio()
   );
 
-
-
+// Acender o led do botao pressionado
 assign leds = botoes;
-  
+
+// Exibir jogadas dos registradores nos displays
 assign db_macro = macro;
 assign db_micro = micro;
 
