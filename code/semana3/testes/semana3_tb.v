@@ -6,7 +6,7 @@
 
 `timescale 1ns/1ns
 
-module celula_vencida_tb;
+module semana3_tb;
 
     // Sinais para conectar com o DUT
     // valores iniciais para fins de simulacao (ModelSim)

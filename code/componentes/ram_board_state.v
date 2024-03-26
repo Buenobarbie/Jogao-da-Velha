@@ -21,7 +21,8 @@ module ram_board_state
     input        we,
     input  [1:0] data,
     input  [3:0] addr,
-    output [1:0] state_final
+    output [1:0] state_final,
+    output [1:0] Q
 );
 
     // Variavel RAM (armazena dados)
@@ -86,5 +87,6 @@ module ram_board_state
     // Update state
     assign state_final = (jogador1_ganhou || jogador2_ganhou) ? {jogador2_ganhou, jogador1_ganhou} :
                                                                 {empate, empate};
+    assign Q = ram[addr_reg];
 
 endmodule
