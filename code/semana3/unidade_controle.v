@@ -92,7 +92,7 @@ module unidade_controle (
         sinal_macro        = (Eatual == joga_macro || Eatual == registra_macro) ? 1'b1 : 1'b0;
         troca_jogador      = (Eatual == trocar_jogador) ? 1'b1 : 1'b0;
         zeraFlipFlopT      = (Eatual == inicial) ? 1'b1 : 1'b0;
-        sinal_valida_macro = (Eatual == registra_macro || Eatual == valida_macro) ? 1'b1 : 1'b0;
+        sinal_valida_macro = (Eatual == registra_macro || Eatual == valida_macro || Eatual == registra_resultado) ? 1'b1 : 1'b0;
         zeraT              = (Eatual == inicial || Eatual == registra_macro || Eatual == registra_micro ) ? 1'b1 : 1'b0;
         contaT             = (Eatual == valida_macro || Eatual == valida_micro) ? 1'b1 : 1'b0;
         we_board           = (Eatual == registra_jogada) ? 1'b1 : 1'b0;
@@ -112,7 +112,7 @@ module unidade_controle (
             registra_jogada:       db_estado = registra_jogada;    // 8
             verifica_macro:        db_estado = verifica_macro;     // 9
             registra_resultado:    db_estado = registra_resultado; // A
-            verifica_tabuleiro:    db_estado = verifica_macro;     // B
+            verifica_tabuleiro:    db_estado = verifica_tabuleiro; // B
             trocar_jogador:        db_estado = trocar_jogador;     // C 
             decide_macro:          db_estado = decide_macro;       // D
             fim:                   db_estado = fim;                // F        
