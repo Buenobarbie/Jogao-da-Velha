@@ -109,39 +109,41 @@ fluxo_dados fluxo_dados (
 );
 
 // Display0 -----------------------------------
-hexa7seg_custom HEX0(
-	.hexa(macro_out),
-	.display(db_macro)
-);
-
-// Display1 -----------------------------------
 hexa7seg_custom HEX1(
 	.hexa(micro_out),
 	.display(db_micro)
 );
 
-// Display2 -----------------------------------
-hexa7seg HEX2(
-	.hexa(estado_out),
-	.display(db_estado)
+// Display1 -----------------------------------
+hexa7seg_custom HEX0(
+	.hexa(macro_out),
+	.display(db_macro)
 );
 
-// Display3 -----------------------------------
+
+
+// Display2 -----------------------------------
 hexa7seg_jogador HEX3(
     .jogador(jogador_atual),
     .display(db_jogador)
 ); 
 
-// Display4 -----------------------------------
+// Display3 -----------------------------------
 hexa7seg_J HEX4(
     .habilita_J(1'b1),
     .J(db_J)
 );
 
-// Display5 -----------------------------------
+// Display4 -----------------------------------
 hexa7seg_jogador HEX5(
     .hexa(resultado_out),
     .display(db_resultado)
+);
+
+// Display5 -----------------------------------
+hexa7seg HEX2(
+	.hexa(estado_out),
+	.display(db_estado)
 );
 
 assign db_tem_jogada = tem_jogada;
