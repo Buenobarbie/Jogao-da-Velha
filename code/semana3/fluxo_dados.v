@@ -131,13 +131,7 @@ wire [1:0]saida_ram_state;
   // Multiplexador
   // 0 : Validar jogada automatica (micro)
   // 1 : Validar jogada manual  (macro)
-  assign conversor_in = (sinal_valida_macro) ? macro : micro;
-
-  // Convere a jogada em endereco
-  conversor conversor(
-    .botoes(conversor_in),
-    .binario(endereco_macro)
-  );
+  assign endereco_macro = (sinal_valida_macro) ? addr_macro : addr_micro;
 
   // OR entre bits do estado_macro
   // 01, 10, e 11 sao celulas vencidas
