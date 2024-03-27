@@ -27,6 +27,8 @@ wire zeraEdge;
 
 wire tem_jogada;
 
+wire zeraRAM;
+
 
 wire [3:0] estado_out;
 wire [8:0] macro_out;
@@ -68,6 +70,7 @@ unidade_controle unidade_controle(
     .zeraR_micro        (zeraR_micro),
     .zeraEdge           (zeraEdge),
     .zeraT              (zeraT),
+    .zeraRAM            (zeraRAM),
     .contaT             (contaT),
     .registraR_macro    (registraR_macro),
     .registraR_micro    (registraR_micro),
@@ -89,6 +92,7 @@ fluxo_dados fluxo_dados (
     .troca_jogador      ( troca_jogador ),
     .zeraFlipFlopT      ( zeraFlipFlopT ),
 	 .zeraT              ( zeraT ),
+     .zeraRAM            (zeraRAM),
     .registraR_macro    ( registraR_macro ),
     .registraR_micro    ( registraR_micro ),
     .sinal_macro        ( sinal_macro ),
