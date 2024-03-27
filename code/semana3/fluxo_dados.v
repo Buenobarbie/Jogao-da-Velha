@@ -14,6 +14,7 @@ input        we_board,
 input        we_board_state,
 input        contaT,
 input        zeraT,
+input        zeraRAM,
 
 output       tem_jogada,
 output       macro_vencida,
@@ -111,6 +112,7 @@ wire [1:0]saida_ram_state;
   // Memória do tabuleiro
   ram_board ram_board(
     .clk(clock),
+    .clear(zeraRAM),
     .we(we_board),
     .data(jogador_atual),
     .addr_macro(addr_macro),
@@ -135,7 +137,7 @@ wire [1:0]saida_ram_state;
   assign endereco_macro = (sinal_valida_macro) ? addr_macro : addr_micro;
 
   // OR entre bits do estado_macro
-  // 01, 10, e 11 sao celulas vencidas
+  // 01, 10, e 11 sao celulas vencidas       
   // 00 eh celula em andamento
   assign macro_vencida = (saida_ram_state[0] || saida_ram_state[1]);
 
@@ -144,6 +146,7 @@ wire [1:0]saida_ram_state;
   // Memoria do estado do tabuleiro
   ram_board_state ram_board_state(
     .clk(clock),
+    .clear(zeraRAM),
     .we(we_board_state),
     .addr(endereco_macro),
     .data(estado_macro),
