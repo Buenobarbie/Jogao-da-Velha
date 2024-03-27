@@ -109,13 +109,13 @@ fluxo_dados fluxo_dados (
 );
 
 // Display0 -----------------------------------
-hexa7seg_custom HEX1(
+hexa7seg_custom HEX0(
 	.hexa(micro_out),
 	.display(db_micro)
 );
 
 // Display1 -----------------------------------
-hexa7seg_custom HEX0(
+hexa7seg_custom HEX1(
 	.hexa(macro_out),
 	.display(db_macro)
 );
@@ -123,25 +123,25 @@ hexa7seg_custom HEX0(
 
 
 // Display2 -----------------------------------
-hexa7seg_jogador HEX3(
+hexa7seg_jogador HEX2(
     .jogador(jogador_atual),
     .display(db_jogador)
 ); 
 
 // Display3 -----------------------------------
-hexa7seg_J HEX4(
+hexa7seg_J HEX3(
     .habilita_J(1'b1),
     .J(db_J)
 );
 
 // Display4 -----------------------------------
-hexa7seg_jogador HEX5(
+hexa7seg_jogador HEX4(
     .hexa(resultado_out),
     .display(db_resultado)
 );
 
 // Display5 -----------------------------------
-hexa7seg HEX2(
+hexa7seg HEX5(
 	.hexa(estado_out),
 	.display(db_estado)
 );
