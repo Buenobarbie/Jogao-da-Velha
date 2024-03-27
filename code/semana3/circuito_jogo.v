@@ -136,7 +136,7 @@ hexa7seg_J HEX3(
 
 // Display4 -----------------------------------
 hexa7seg_jogador HEX4(
-    .hexa(resultado_out),
+    .jogador(resultado_out),
     .display(db_resultado)
 );
 
