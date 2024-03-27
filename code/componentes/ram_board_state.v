@@ -18,6 +18,7 @@
 module ram_board_state 
 (
     input        clk,
+    input        clear,
     input        we,
     input  [1:0] data,
     input  [3:0] addr,
@@ -52,10 +53,23 @@ module ram_board_state
 
     end 
 
-    always @ (posedge clk)
+    always @ (posedge clk or posedge clear )
     begin
         // Escrita da memoria
-        if (we)
+        if (clear) begin
+            ram[0] <= 2'b00;
+            ram[1] <= 2'b00;
+            ram[2] <= 2'b00;
+            ram[3] <= 2'b00;
+            ram[4] <= 2'b00;
+            ram[5] <= 2'b00;
+            ram[6] <= 2'b00;
+            ram[7] <= 2'b00;
+            ram[8] <= 2'b00;
+            ram[9] <= 2'b00;
+
+        end
+        else if (we)
             ram[addr] <= data;
 
 
