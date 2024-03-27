@@ -16,6 +16,7 @@ module unidade_controle (
     output reg zeraR_micro,
     output reg zeraEdge,
     output reg zeraT,
+    output reg zeraRAM,
     output reg contaT,
     output reg registraR_macro,
     output reg registraR_micro,
@@ -97,6 +98,7 @@ module unidade_controle (
         contaT             = (Eatual == valida_macro || Eatual == valida_micro) ? 1'b1 : 1'b0;
         we_board           = (Eatual == registra_jogada) ? 1'b1 : 1'b0;
         we_board_state     = (Eatual == registra_resultado) ? 1'b1 : 1'b0;
+        zeraRAM            = (Eatual == inicial) ? 1'b1 : 1'b0;
         
         
         // Saida de depuracao (estado)
