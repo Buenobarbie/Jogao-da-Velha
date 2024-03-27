@@ -17,6 +17,7 @@
 module ram_board
 (
     input        clk,
+    input        clear,
     input        we,
     input  [1:0] data,
     input  [3:0] addr_macro,
@@ -37,47 +38,34 @@ module ram_board
     reg jogador2_ganhou;
     reg empate;
 
-    initial 
-    begin : INICIA_RAM
+    // initial 
+    // begin : INICIA_RAM
 
-    integer i, j;
+    // integer i, j;
 
-    for(i=0; i<10; i=i+1) begin
-        for(j=0; j<10; j=j+1) begin
-            ram[i][j] <= 2'b00;
-        end
-    end
- 
-    //  // MACRO 1
-    //  ram[1][0] <= 2'b00;
-    //  ram[1][1] <= 2'b00;
-    //  ram[1][2] <= 2'b00;
-    //  ram[1][3] <= 2'b00;
-    //  ram[1][4] <= 2'b00;
-    //  ram[1][5] <= 2'b00;
-    //  ram[1][6] <= 2'b00;
-    //  ram[1][7] <= 2'b00;
-    //  ram[1][8] <= 2'b00;
-    //  ram[1][9] <= 2'b00;
+    // for(i=0; i<10; i=i+1) begin
+    //     for(j=0; j<10; j=j+1) begin
+    //         ram[i][j] <= 2'b00;
+    //     end
+    // end
+        // end 
 
-    //   // MACRO 2
-    //  ram[2][0] <= 2'b00;
-    //  ram[2][1] <= 2'b00;
-    //  ram[2][2] <= 2'b00;
-    //  ram[2][3] <= 2'b00;
-    //  ram[2][4] <= 2'b00;
-    //  ram[2][5] <= 2'b00;
-    //  ram[2][6] <= 2'b00;
-    //  ram[2][7] <= 2'b00;
-    //  ram[2][8] <= 2'b00;
-    //  ram[2][9] <= 2'b00;
- 
-    end 
 
-    always @ (posedge clk)
+
+    always @ (posedge clk or posedge clear)
     begin
+        if (clear) begin
+            integer i, j;
+
+            for(i=0; i<10; i=i+1) begin
+                for(j=0; j<10; j=j+1) begin
+                    ram[i][j] <= 2'b00;
+                end
+            end
+        end
+
         // Escrita da memoria
-        if (we)
+        else if (we)
             ram[addr_macro][addr_micro] <= data;
         // 01
         // 01 01 01
