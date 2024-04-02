@@ -37,7 +37,7 @@ circuito_jogo circuito_jogo(
     .jogar_micro(jogar_micro),
     .uart_macro(uart_macro),
     .uart_micro(uart_micro),
-    .uart_estado(uart_estadp),
+    .uart_estado(uart_estado),
     .uart_resulado_macro(uart_resulado_macro),
     .uart_resulado_jogo(uart_resulado_jogo),
     .db_macro(db_macro),
@@ -61,13 +61,16 @@ circuito_jogo circuito_jogo(
 // A'B + AB' + CD + A'D
 // assign wr = (~uart_estado[3] & uart_estado[2]) | (uart_estado[3] & ~uart_estado[2]) | (uart_estado[1] & uart_estado[0]) | (~uart_estado[3] & uart_estado[0]);
 
-assign wr = (uart_estado == 4'b0000 || uart_estado == 4'b0010 || uart_estado == 4'b0101 || 
-             uart_estado == 4'b1000 || uart_estado == 4'b1010 || uart_estado == 4'b1100 || uart_estado == 4'b1111);
+assign wr = ((uart_estado[0] && uart_estado[1] && uart_estado[2] && uart_estado[3]) ||
+             (uart_estado[0] && ~uart_estado[1] && uart_estado[2] && ~uart_estado[3]) ||
+             (~uart_estado[0] && ~uart_estado[1] && uart_estado[2] && uart_estado[3]) ||
+             (uart_estado[0] && uart_estado[2]));
 uart uart(
     .clk(clock),
     .i_data({uart_estado, uart_macro, uart_micro, uart_resulado_macro, uart_resulado_jogo}),
     .wr(wr),
     .s_out(s_out)
 );
+
 
 endmodule
