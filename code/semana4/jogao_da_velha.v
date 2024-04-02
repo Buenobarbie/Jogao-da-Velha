@@ -23,6 +23,7 @@ wire [3:0] uart_estado;
 wire [1:0] uart_resulado_macro;
 wire [1:0] uart_resulado_jogo;
 wire wr;
+wire sinal;
 
 
 circuito_jogo circuito_jogo(
@@ -58,13 +59,23 @@ circuito_jogo circuito_jogo(
 // 1100
 // 1111
 // ABCD
-// A'B + AB' + CD + A'D
-// assign wr = (~uart_estado[3] & uart_estado[2]) | (uart_estado[3] & ~uart_estado[2]) | (uart_estado[1] & uart_estado[0]) | (~uart_estado[3] & uart_estado[0]);
 
-assign wr = ((uart_estado[0] && uart_estado[1] && uart_estado[2] && uart_estado[3]) ||
-             (uart_estado[0] && ~uart_estado[1] && uart_estado[2] && ~uart_estado[3]) ||
-             (~uart_estado[0] && ~uart_estado[1] && uart_estado[2] && uart_estado[3]) ||
-             (uart_estado[0] && uart_estado[2]));
+assign sinal = ((~uart_estado[0] && uart_estado[1] && ~uart_estado[2] && ~uart_estado[3]) ||
+                (uart_estado[0] && ~uart_estado[1] && uart_estado[2] && ~uart_estado[3]) ||
+                (~uart_estado[0] && ~uart_estado[1] && ~uart_estado[2] && uart_estado[3]) ||
+                (~uart_estado[0] && uart_estado[1] && ~uart_estado[2] && uart_estado[3]) ||
+                (~uart_estado[0] && ~uart_estado[1] && uart_estado[2] && uart_estado[3]) ||
+                (uart_estado[0] && uart_estado[1] && uart_estado[2] && uart_estado[3]));
+
+edge_detector detect_wr
+(
+    .clock(clock),
+    .reset(reset),
+    .sinal(sinal),
+    .pulso(wr)
+);
+
+
 uart uart(
     .clk(clock),
     .i_data({uart_estado, uart_macro, uart_micro, uart_resulado_macro, uart_resulado_jogo}),

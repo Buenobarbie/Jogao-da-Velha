@@ -170,7 +170,7 @@ wire [1:0]saida_ram_state;
 
   // --------------- TEMPORIZADOR -------------------- 
   // Tempo de espera para atualizacao do sinal
-    contador_m #(5, 3)temporizador(
+    contador_m #(90, 7)temporizador(
     .clock(clock),
     .zera_as(zeraT),
     .zera_s(zeraT),
