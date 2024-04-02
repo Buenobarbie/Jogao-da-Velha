@@ -8,6 +8,11 @@ module circuito_jogo (
  output       db_tem_jogada,
  output       jogar_macro,
  output       jogar_micro,
+ output [3:0] uart_macro,
+ output [3:0] uart_micro,
+ output [3:0] uart_estado,
+ output [1:0] uart_resulado_macro,
+ output [1:0] uart_resulado_jogo,
  output [6:0] db_macro,
  output [6:0] db_micro,
  output [6:0] db_estado, 
@@ -151,5 +156,12 @@ hexa7seg HEX5(
 );
 
 assign db_tem_jogada = tem_jogada;
+
+assign uart_macro = macro_out;
+assign uart_micro = micro_out;
+assign uart_estado = estado_out;
+
+assign uart_resulado_macro = macro_vencida;
+assign uart_resulado_jogo = fim_jogo;
 
 endmodule
