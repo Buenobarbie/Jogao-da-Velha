@@ -114,7 +114,7 @@ fluxo_dados fluxo_dados (
     .db_macro           ( macro_out ),
     .db_micro           ( micro_out ),
     .sinal_valida_macro ( sinal_valida_macro ),
-    .db_resultado       ( resultado_out ),
+    .db_resultado       ( resultado_out )
 );
 
 // Display0 -----------------------------------

@@ -37,7 +37,7 @@ module uart
 				// Obs.: Quando o sinal wr está em nível lógico alto já pressupomos que os dados foram enviados para a entrada paralela e que queremos transmití-los serialmente de imediato; os dados da entrada são salvos em um registrador para que não sejam perdidos caso sofram instabilidade durante a transmissão
 				T_WAIT:
 				begin
-					sout <= STOP_BIT;
+					s_out <= STOP_BIT;
 					if(clk_counter < CLKS_PER_BIT - 1)
 					begin
 						clk_counter <= clk_counter + 1;
@@ -57,7 +57,7 @@ module uart
 				// Envia start bit
 				T_START_BIT:
 				begin
-					sout <= START_BIT;
+					s_out <= START_BIT;
 					if(clk_counter < CLKS_PER_BIT - 1)
 					begin
 						clk_counter <= clk_counter + 1;
@@ -84,14 +84,14 @@ module uart
 						clk_counter <= 0;
 						if(index < 15)
 						begin
-							sout <= data_aux[index];
+							s_out <= data_aux[index];
 							index <= index + 1;
 							t_state <= T_DATA_BITS; 
 						end
 						
 						else
 						begin
-							sout <= data_aux[15];
+							s_out <= data_aux[15];
 							index <= 0;
 							t_state <= T_STOP_BIT;
 						end
@@ -109,7 +109,7 @@ module uart
 					else
 					begin
 						clk_counter <= 0;
-						sout <= STOP_BIT;
+						s_out <= STOP_BIT;
 						t_state <= T_WAIT;
 					end
 				end

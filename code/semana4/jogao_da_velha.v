@@ -70,5 +70,4 @@ uart uart(
     .s_out(s_out)
 );
 
-
 endmodule
