@@ -35,7 +35,7 @@ module contador_m #(parameter M=100, N=7)
         Q <= 0;
       end else if (conta) begin
         if (Q == M-1) begin
-          Q <= 0;
+          Q <= M-1;
         end else begin
           Q <= Q + 1;
         end
