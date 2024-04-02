@@ -55,8 +55,6 @@ module ram_board
     always @ (posedge clk or posedge clear)
     begin
         if (clear) begin
-            // integer i, j;
-
             for(i=0; i<10; i=i+1) begin
                 for(j=0; j<10; j=j+1) begin
                     ram[i][j] <= 2'b00;

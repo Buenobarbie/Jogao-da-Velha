@@ -21,14 +21,21 @@ module uart
 			  T_STOP_BIT  = 3'b111;
 	
 	// Auxílio para controlar a máquina de estados
-	reg [7:0] clk_counter = 0;
-	reg [2:0] index       = 0;
-	reg [6:0] data_aux    = 0;
-	reg [2:0] t_state     = T_WAIT;
+	reg [7:0]  clk_counter = 0;
+	reg [3:0]  index       = 0;
+	reg [15:0] data_aux    = 0;
+	reg [2:0]  t_state     = T_WAIT;
+
+	reg sending = 0;
 	
 	always @(posedge clk)
 	begin
-		if (wr == 1'b1)
+		if (wr == 1'b1) 
+		begin
+			sending <= 1'b1;
+		end
+
+		if (sending == 1'b1)
 		begin
 			// Máquina de estados para enviar dados seriais
 			case(t_state)
@@ -111,6 +118,7 @@ module uart
 						clk_counter <= 0;
 						s_out <= STOP_BIT;
 						t_state <= T_WAIT;
+						sending <= 1'b0;
 					end
 				end
 				
@@ -121,6 +129,7 @@ module uart
 		else
 		begin
 			t_state <= T_WAIT;
+			s_out <= 1'b1;
 		end
 	end
 		

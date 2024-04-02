@@ -24,7 +24,7 @@ module hexa7seg_jogador (jogador, display);
         case(jogador)
             2'b01:    display = 7'b1111001; // 1
             2'b10:    display = 7'b0100100; // 2
-            2'b11:    display = 7'b00000110;// E
+            2'b11:    display = 7'b0000110; // E
 
 
             default: display = 7'b0111111; // -
