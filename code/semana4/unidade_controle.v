@@ -7,6 +7,7 @@ module unidade_controle (
     input      fim_jogo,
     input      macro_vencida,
     input      micro_jogada,
+    input      fimS,
     input      fimT,
     output reg sinal_macro,
     output reg sinal_valida_macro,
@@ -15,8 +16,10 @@ module unidade_controle (
     output reg zeraR_macro,
     output reg zeraR_micro,
     output reg zeraEdge,
+    output reg zeraS,
     output reg zeraT,
     output reg zeraRAM,
+    output reg contaS,
     output reg contaT,
     output reg registraR_macro,
     output reg registraR_micro,
@@ -62,17 +65,17 @@ module unidade_controle (
         case (Eatual) 
             inicial:              Eprox = (iniciar) ? preparacao : inicial;
             preparacao:           Eprox = joga_macro;
-            joga_macro:           Eprox = (!fimT) ? joga_macro : (tem_jogada) ? registra_macro : joga_macro;
+            joga_macro:           Eprox = (!fimS) ? joga_macro : (tem_jogada) ? registra_macro : joga_macro;
             registra_macro:       Eprox = valida_macro;
             valida_macro:         Eprox = (!fimT) ? valida_macro : (macro_vencida) ? preparacao : joga_micro;
-            joga_micro:           Eprox = (!fimT) ? joga_micro : (tem_jogada) ? registra_micro : joga_micro;
+            joga_micro:           Eprox = (!fimS) ? joga_micro : (tem_jogada) ? registra_micro : joga_micro;
             registra_micro:       Eprox = valida_micro;
             valida_micro:         Eprox = (!fimT) ? valida_micro : (micro_jogada) ? joga_micro : registra_jogada;
-            registra_jogada:      Eprox = (!fimT) ? registra_jogada : verifica_macro;
+            registra_jogada:      Eprox = (!fimS) ? registra_jogada : verifica_macro;
             verifica_macro:       Eprox = registra_resultado;
-            registra_resultado:   Eprox = (!fimT) ? registra_resultado : verifica_tabuleiro;
+            registra_resultado:   Eprox = (!fimS) ? registra_resultado : verifica_tabuleiro;
             verifica_tabuleiro:   Eprox = (fim_jogo) ? fim : trocar_jogador;
-            trocar_jogador:       Eprox = (!fimT) ? troca_jogador : decide_macro;
+            trocar_jogador:       Eprox = (!fimS) ? troca_jogador : decide_macro;
             decide_macro:         Eprox = (macro_vencida) ? preparacao : joga_micro;
             fim:                  Eprox = (!fimT) ? fim : (iniciar) ? inicial : fim;
             
@@ -95,7 +98,9 @@ module unidade_controle (
         zeraFlipFlopT      = (Eatual == inicial) ? 1'b1 : 1'b0;
         sinal_valida_macro = (Eatual == registra_macro || Eatual == valida_macro || Eatual == registra_resultado) ? 1'b1 : 1'b0;
         zeraT              = (Eatual == inicial || Eatual == registra_macro || Eatual == registra_micro ) ? 1'b1 : 1'b0;
-        contaT             = (Eatual == joga_macro || Eatual == joga_micro || Eatual == registra_jogada || Eatual == registra_resultado || Eatual == troca_jogador || Eatual == fim || Eatual == valida_macro || Eatual == valida_micro) ? 1'b1 : 1'b0;
+        zeraS              = (Eatual == preparacao || Eatual == valida_macro || Eatual == valida_micro || Eatual == verifica_macro || Eatual == verifica_tabuleiro) ? 1'b1 : 1'b0;
+        contaT             = (Eatual == fim || Eatual == valida_macro || Eatual == valida_micro) ? 1'b1 : 1'b0;
+        contaS             = (Eatual == joga_macro || Eatual == joga_micro || Eatual == registra_jogada || Eatual == registra_resultado || Eatual == troca_jogador) ? 1'b1 : 1'b0;
         we_board           = (Eatual == registra_jogada) ? 1'b1 : 1'b0;
         we_board_state     = (Eatual == registra_resultado) ? 1'b1 : 1'b0;
         zeraRAM            = (Eatual == inicial) ? 1'b1 : 1'b0;
