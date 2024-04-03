@@ -186,7 +186,7 @@ wire [1:0]saida_ram_state;
 	 
   // --------------- TEMPORIZADOR TRANSMISSAO SERIAL -------------------- 
   // Tempo de espera para transmissao serial 
-    contador_m #(90, 7)temporizador_serial(
+    contador_m #(110, 7)temporizador_serial(
     .clock(clock),
     .zera_as(zeraS),
     .zera_s(zeraS),
