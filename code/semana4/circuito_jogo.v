@@ -106,6 +106,7 @@ fluxo_dados fluxo_dados (
     .troca_jogador      ( troca_jogador ),
     .zeraFlipFlopT      ( zeraFlipFlopT ),
 	 .zeraT              ( zeraT ),
+	 .zeraS               (zeraS),
      .zeraRAM            (zeraRAM),
     .registraR_macro    ( registraR_macro ),
     .registraR_micro    ( registraR_micro ),
