@@ -48,10 +48,15 @@ wire [1:0] jogador_atual;
 wire micro_jogada;
 
 wire sinal_valida_macro;
-wire fimT;
 
+wire fimT;
 wire zeraT;
 wire contaT;
+	
+wire fimS;
+wire zeraS;
+wire contaS;
+	
 wire we_board;
 wire we_board_state;
 
@@ -67,6 +72,7 @@ unidade_controle unidade_controle(
     .fim_jogo           (fim_jogo),
     .macro_vencida      (macro_vencida),
     .micro_jogada       (micro_jogada),
+    .fimS               (fimS),
     .fimT               (fimT),
     .sinal_macro        (sinal_macro),
     .sinal_valida_macro (sinal_valida_macro),
@@ -75,8 +81,10 @@ unidade_controle unidade_controle(
     .zeraR_macro        (zeraR_macro),
     .zeraR_micro        (zeraR_micro),
     .zeraEdge           (zeraEdge),
+    .zeraS              (zeraS),
     .zeraT              (zeraT),
     .zeraRAM            (zeraRAM),
+    .contaS             (contaS),
     .contaT             (contaT),
     .registraR_macro    (registraR_macro),
     .registraR_micro    (registraR_micro),
@@ -105,10 +113,12 @@ fluxo_dados fluxo_dados (
     .we_board           ( we_board ),
     .we_board_state     ( we_board_state ),
     .contaT             ( contaT ),
+    .contaS             ( contaS ),
     .tem_jogada         ( tem_jogada ),
     .macro_vencida      ( macro_vencida ),
 	 .micro_jogada       ( micro_jogada ),
 	 .fimT               ( fimT ),
+	 .fimS               ( fimS ),
     .fim_jogo           ( fim_jogo),
     .jogador_atual      ( jogador_atual),
     .leds               ( leds),
