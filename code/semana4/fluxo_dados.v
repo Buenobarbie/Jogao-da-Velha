@@ -25,7 +25,8 @@ output [1:0] jogador_atual,
 output [8:0] leds,
 output [3:0] db_macro, 
 output [3:0] db_micro,
-output [1:0] db_resultado
+output [1:0] db_resultado,
+output [1:0] db_estado_macro
 );
 
 // Edge Detector
@@ -186,6 +187,7 @@ assign leds = botoes;
 // Exibir jogadas dos registradores nos displays
 assign db_macro = addr_macro;
 assign db_micro = addr_micro;
+assign db_estado_macro = estado_macro;
 
 
 endmodule

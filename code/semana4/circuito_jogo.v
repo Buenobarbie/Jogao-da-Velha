@@ -55,7 +55,8 @@ wire contaT;
 wire we_board;
 wire we_board_state;
 
-wire resultado_out;
+wire [1:0] resultado_out;
+wire [1:0] estado_macro_out;
 
 // Unidade de controle ------------------------------
 unidade_controle unidade_controle(
@@ -114,7 +115,8 @@ fluxo_dados fluxo_dados (
     .db_macro           ( macro_out ),
     .db_micro           ( micro_out ),
     .sinal_valida_macro ( sinal_valida_macro ),
-    .db_resultado       ( resultado_out )
+    .db_resultado       ( resultado_out ),
+    .db_estado_macro    ( estado_macro_out )
 );
 
 // Display0 -----------------------------------
@@ -161,7 +163,7 @@ assign uart_macro = macro_out;
 assign uart_micro = micro_out;
 assign uart_estado = estado_out;
 
-assign uart_resulado_macro = macro_vencida;
-assign uart_resulado_jogo = fim_jogo;
+assign uart_resulado_macro = estado_macro_out;
+assign uart_resulado_jogo = resultado_out;
 
 endmodule
