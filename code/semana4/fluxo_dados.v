@@ -13,7 +13,9 @@ input        sinal_valida_macro,
 input        we_board,
 input        we_board_state,
 input        contaT,
+input        contaS,
 input        zeraT,
+input	     zeraS,
 input        zeraRAM,
 
 output       tem_jogada,
@@ -21,6 +23,7 @@ output       macro_vencida,
 output       micro_jogada,
 output       fim_jogo,
 output       fimT,
+output       fimS,
 output [1:0] jogador_atual,
 output [8:0] leds,
 output [3:0] db_macro, 
@@ -180,6 +183,19 @@ wire [1:0]saida_ram_state;
     .fim(fimT),
     .meio()
   );
+	 
+  // --------------- TEMPORIZADOR TRANSMISSAO SERIAL -------------------- 
+  // Tempo de espera para transmissao serial 
+    contador_m #(90, 7)temporizador_serial(
+    .clock(clock),
+    .zera_as(zeraS),
+    .zera_s(zeraS),
+    .conta(contaS),
+    .Q(),
+    .fim(fimS),
+    .meio()
+  );
+
 
 // Acender o led do botao pressionado
 assign leds = botoes;
