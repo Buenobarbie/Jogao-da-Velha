@@ -27,7 +27,7 @@ global cor_jogador2
 cor_jogador2 = (255,0,0)
 
 global cor_jogador1_macro
-cor_jogador1_macro = (255,0,0)
+cor_jogador1_macro = (0,184,230)
 
 global cor_jogador2_macro
 cor_jogador2_macro = (0,0,255)
@@ -223,9 +223,9 @@ def draw_rect():
 
 
 def draw_win():
-	matrix_text = ["10", "01", "11",
-				   "11", "11", "10",
-				   "11", "10", "11"]
+	matrix_text = ["00", "00", "00",
+				   "00", "00", "00",
+				   "00", "00", "01"]
 	
 	matrix_text2 = [[1,2,0,0,1,0,0,0,0],
 				    [0,0,0,0,0,0,0,0,0],
@@ -241,8 +241,8 @@ def draw_win():
 	title()
 	draw_player(1)
 	draw_board()
-	draw_highlight_macro()
-	# draw_finish_macro(matrix_text)
+	draw_highlight_macro([1,0,0,0,0,0,0,0,0])
+	draw_finish_macro(matrix_text)
 	draw_board_lines()
 	draw_board_plays(matrix_text2)
 	pygame.display.update()
