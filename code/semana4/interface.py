@@ -15,7 +15,7 @@ global cor_title
 cor_title = (0,0,0)
 
 global cor_amarelo 
-cor_amarelo = (255,255,0)
+cor_amarelo = (255, 238, 125)
 
 global cor_linha
 cor_linha = (0,0,0)
@@ -30,7 +30,7 @@ global cor_jogador1_macro
 cor_jogador1_macro = (0,184,230)
 
 global cor_jogador2_macro
-cor_jogador2_macro = (0,0,255)
+cor_jogador2_macro = (255,100,100)
 
 global cor_empate
 cor_empate = (255,255,0)
@@ -69,6 +69,7 @@ y_tabuleiro = 120
 global tabuleiro_size
 tabuleiro_size = ( 6 * espacamento_macro_board + 2 * linha_maior + 3 * quadrado_macro)
 
+# ------------------------------ DRAW FUNCTIONS ------------------------------
 # tabuleiro (quadrado branco)
 def draw_board():
 	size = tabuleiro_size
@@ -96,8 +97,8 @@ def draw_highlight_macro(matrix=[1,1,1,1,1,1,1,1,1]):
 		else:
 			draw = False
  
-		x = x_tabuleiro  + espacamento_macro_board + (i // 3) * temp
-		y = y_tabuleiro + espacamento_macro_board +  (i % 3) * temp
+		x = x_tabuleiro  + espacamento_macro_board + (i % 3) * temp
+		y = y_tabuleiro + espacamento_macro_board +  (i // 3) * temp
 
 		if draw:
 			pygame.draw.rect(win, cor_amarelo, (x, y, size,size))
@@ -121,8 +122,8 @@ def draw_finish_macro(matrix):
 		else:
 			draw = False
  
-		x = x_tabuleiro  + espacamento_macro_board + (i // 3) * temp
-		y = y_tabuleiro + espacamento_macro_board +  (i % 3) * temp
+		x = x_tabuleiro  + espacamento_macro_board + (i % 3) * temp
+		y = y_tabuleiro + espacamento_macro_board +  (i // 3) * temp
 
 		if draw:
 			pygame.draw.rect(win, color, (x, y, size,size))
@@ -184,21 +185,21 @@ def draw_board_plays(matrix):
 	temp = (espacament_micro_linha + quadradinho + espacament_micro_linha + linha_menor)
 	i = 0
 	for macro in matrix:
-		x_macro = x_tabuleiro  + espacamento_macro_board + (i // 3) * temp_macro
-		y_macro = y_tabuleiro + espacamento_macro_board +  (i % 3) * temp_macro
+		x_macro = x_tabuleiro  + espacamento_macro_board + (i % 3) * temp_macro
+		y_macro = y_tabuleiro + espacamento_macro_board +  (i // 3) * temp_macro
 		i += 1
 		j = 0
 		for micro in macro:
 			draw = True
-			if micro == 1:
+			if micro == "1":
 				color = cor_jogador1
-			elif micro == 2:
+			elif micro == "2":
 				color = cor_jogador2
 			else:
 				draw = False
 
-			x = x_macro  + espacament_micro_linha + (j // 3) * temp
-			y = y_macro + espacament_micro_linha  +  (j % 3) * temp
+			x = x_macro  + espacament_micro_linha + (j % 3) * temp
+			y = y_macro + espacament_micro_linha  +  (j // 3) * temp
 			
 			if draw:
 				pygame.draw.rect(win, color, (x, y, size,size))
@@ -221,38 +222,88 @@ def draw_player(player):
 def draw_rect():
 	pygame.draw.rect(win, (255,0,0),(20,60 , 20,10))
 
+def draw_result(result):
+	font_size = 100
+	if result == "01":
+		text_color = cor_jogador1
+		text = "Jogador 1 Venceu!"
+	elif result == "10":
+		text_color = cor_jogador2
+		text = "Jogador 2 Venceu!"
+	elif result == "11":
+		text_color = cor_empate
+		text = "Empate!"
+	x_text = 10
+	y_text = 300
 
-def draw_win():
-	matrix_text = ["00", "00", "00",
-				   "00", "00", "00",
-				   "00", "00", "01"]
-	
-	matrix_text2 = [[1,2,0,0,1,0,0,0,0],
-				    [0,0,0,0,0,0,0,0,0],
-					[0,0,0,0,0,0,0,0,0],
-					[0,0,0,0,0,0,0,0,0],
-					[0,0,0,0,2,0,0,0,1],
-					[0,0,0,0,0,0,0,0,0],
-					[0,0,2,0,0,0,0,0,0],
-					[0,0,0,0,0,1,0,0,0],
-					[0,0,0,0,2,0,1,1,1],
-					]
+	font1 = pygame.font.SysFont('Arial', font_size,True)
+	text = font1.render(f'{text}', 1 , text_color)
+	win.blit(text, (x_text, y_text))
+
+# ---------------------------- GET DATA ----------------------------
+def get_txt():
+	lines = []
+	file = open("./jogo.txt", "rb")
+	line = file.readline()
+	while line:
+		line = line.decode("utf-8")
+		line = line.replace("\r","")
+		line = line.replace("\n","")
+		lines.append(line)
+		line = (file.readline())
+		
+	file.close()
+	lines.remove("")
+
+	return lines
+
+def get_elements(text):
+	jogador = int(text[0])
+	matrix_board = []
+	matrix_board_state = []
+	jogada_macro = (text[1])
+	resultado_jogo = (text[2])
+
+	if jogada_macro == "all":
+		yellow_matrix = [1,1,1,1,1,1,1,1,1]
+	elif jogada_macro == "none":
+		yellow_matrix = [0,0,0,0,0,0,0,0,0]
+	else:
+		yellow_matrix = [0,0,0,0,0,0,0,0,0]
+		yellow_matrix[int(jogada_macro,2)-1] = 1
+
+	for i in range(3, 12):
+		matrix_board.append(text[i].split(" "))
+
+	for i in range(12,15):
+		temp = text[i].split(" ")
+		for j in range(0, 3):
+			matrix_board_state.append((temp[j]))
+
+	return jogador, yellow_matrix, matrix_board, matrix_board_state	, resultado_jogo
+
+# ------------------------------ DRAW WINDOW ------------------------------
+
+def draw_win(jogador,yellow_matrix, matrix_board, matrix_board_state, resultado_jogo):
 	win.fill((180,200,240))
 	title()
-	draw_player(1)
+	draw_player(jogador)
 	draw_board()
-	draw_highlight_macro([1,0,0,0,0,0,0,0,0])
-	draw_finish_macro(matrix_text)
+	draw_highlight_macro(yellow_matrix)
+	draw_finish_macro(matrix_board_state)
 	draw_board_lines()
-	draw_board_plays(matrix_text2)
+	draw_board_plays(matrix_board)
+	if resultado_jogo != "00":
+		draw_result(resultado_jogo)
 	pygame.display.update()
 
 while run:
 	for event in pygame.event.get():
 		if event.type == pygame.QUIT:
 			run= False
-	
-	draw_win()
+	text = get_txt()
+	jogador, yellow_matrix, matrix_board, matrix_board_state, resultado_jogo = get_elements(text)
+	draw_win(jogador,yellow_matrix, matrix_board, matrix_board_state, resultado_jogo)
 	
 
 pygame.quit()	
