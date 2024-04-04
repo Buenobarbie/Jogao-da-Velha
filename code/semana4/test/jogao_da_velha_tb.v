@@ -29,7 +29,7 @@ module jogao_da_velha_tb;
     wire       db_s_out;
 
     // Configuracao do clock
-    parameter clockPeriod = 20; // in ns, f=48kHz
+    parameter clockPeriod = 20000; // in ns, f=48kHz
 
     // Identificacao do caso de teste
     reg [31:0] caso = 0;
@@ -87,7 +87,7 @@ module jogao_da_velha_tb;
       #(5*clockPeriod);
       iniciar_in = 0;
       // espera
-      #(10*clockPeriod);
+      #(110*clockPeriod);
 
       // Teste 3. Jogador 1 joga macro 5
       caso = 3;
@@ -96,7 +96,7 @@ module jogao_da_velha_tb;
       #(20*clockPeriod);
       botoes_in = 9'b000000000;
       // espera entre jogadas
-      #(10*clockPeriod);
+      #(110*clockPeriod);
 
       // Teste 4. Jogador 1 joga micro 1
       caso = 4;
@@ -105,7 +105,7 @@ module jogao_da_velha_tb;
       #(20*clockPeriod);
       botoes_in = 9'b000000000;
       // espera entre jogadas
-      #(10*clockPeriod);
+      #(350*clockPeriod);
 
       // Teste 5. Jogador 2 joga micro 5
       caso = 5;
