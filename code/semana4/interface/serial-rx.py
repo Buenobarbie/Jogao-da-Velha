@@ -3,6 +3,7 @@ import serial
 PORT = 'COM19'  # Change this to your serial port
 BAUDRATE = 9600
 
+
 # Define the serial port and parameters
 ser = serial.Serial(
     port     = PORT,           
@@ -11,6 +12,20 @@ ser = serial.Serial(
     parity   = serial.PARITY_NONE,    # No parity bit
     stopbits = serial.STOPBITS_ONE    # 1 stop bit
 )
+
+global JOGA_MACRO
+global JOGA_MICRO
+global REGISTRA_JOGADA
+global REGISTRA_RESULTADO
+global TROCA_JOGADOR
+global FIM
+
+JOGA_MACRO = "0010"
+JOGA_MICRO = "0101"
+REGISTRA_JOGADA = "1000"
+REGISTRA_RESULTADO = "1010"
+TROCA_JOGADOR = "1100"
+FIM = "1111"
 
 
 def split_data(data1, data2):
@@ -23,19 +38,19 @@ def split_data(data1, data2):
     return [estado, macro, micro, estado_macro, estado_jogo]
 
 def update_board(matrix_board, micro, macro, estado, jogador):
-    if (estado == "0000"):
+    if (estado == REGISTRA_JOGADA):
         matrix_board[int(macro, 2)][int(micro, 2)] = jogador
 
     return matrix_board
 
 def update_board_state(matrix_board_state, estado, macro, estado_macro):
-    if (estado == "0000"):
+    if (estado == REGISTRA_RESULTADO):
         matrix_board_state[int(macro, 2)] = estado_macro
 
     return matrix_board_state
 
 def update_jogador(estado, jogador):
-    if (estado == "0000"):
+    if (estado == TROCA_JOGADOR):
         if jogador == 1:
             jogador = 2
         else:
@@ -44,9 +59,9 @@ def update_jogador(estado, jogador):
     return jogador
 
 def update_exibe_macro(estado, macro):
-    if (estado == "0000"):
+    if (estado == JOGA_MICRO):
         exibe_macro = macro
-    elif (estado == "0001"):
+    elif (estado == JOGA_MACRO):
         exibe_macro = "all"
     else:
         exibe_macro = "none"
