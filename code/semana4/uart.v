@@ -57,8 +57,11 @@ module uart
 						clk_counter <= 0;
 						index       <= 0;
 						t_state     <= T_START_BIT;
-						data_aux  <= i_data[7:0];
-						data_aux2 <= i_data[15:8];
+						if (sending == 2'b01)
+						begin
+							data_aux  <= i_data[7:0];
+							data_aux2 <= i_data[15:8];
+						end
 					end
 					
 				end
@@ -74,7 +77,7 @@ module uart
 					end
 					else
 					begin
-						clk_counter <= 0;
+						//clk_counter <= 0;
 						t_state <= T_DATA_BITS;
 					end
 		
@@ -119,15 +122,14 @@ module uart
 					begin
 						clk_counter <= 0;
 						s_out <= STOP_BIT;
+						t_state <= T_WAIT;
 						if(sending == 2'b01)
 						begin
-							t_state <= T_START_BIT;
 							sending <= 2'b10;
 							data_aux <= data_aux2;
 						end
 						else
 						begin
-							t_state <= T_WAIT;
 							sending <= 2'b00;
 						end
 					end
