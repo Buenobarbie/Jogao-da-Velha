@@ -1,17 +1,19 @@
 import serial
 
+TEST = 0
+
 PORT = 'COM19'  # Change this to your serial port
 BAUDRATE = 9600
 
-
-# Define the serial port and parameters
-ser = serial.Serial(
-    port     = PORT,           
-    baudrate = BAUDRATE,
-    bytesize = serial.EIGHTBITS,      # 8 data bits
-    parity   = serial.PARITY_NONE,    # No parity bit
-    stopbits = serial.STOPBITS_ONE    # 1 stop bit
-)
+if not TEST:
+    # Define the serial port and parameters
+    ser = serial.Serial(
+        port     = PORT,           
+        baudrate = BAUDRATE,
+        bytesize = serial.EIGHTBITS,      # 8 data bits
+        parity   = serial.PARITY_NONE,    # No parity bit
+        stopbits = serial.STOPBITS_ONE    # 1 stop bit
+    )
 
 global JOGA_MACRO
 global JOGA_MICRO
@@ -39,13 +41,13 @@ def split_data(data1, data2):
 
 def update_board(matrix_board, micro, macro, estado, jogador):
     if (estado == REGISTRA_JOGADA):
-        matrix_board[int(macro, 2)][int(micro, 2)] = jogador
+        matrix_board[int(macro, 2)-1][int(micro, 2)-1] = str(jogador)
 
     return matrix_board
 
 def update_board_state(matrix_board_state, estado, macro, estado_macro):
     if (estado == REGISTRA_RESULTADO):
-        matrix_board_state[int(macro, 2)] = estado_macro
+        matrix_board_state[int(macro, 2)-1] = estado_macro
 
     return matrix_board_state
 
@@ -71,13 +73,14 @@ def update_exibe_macro(estado, macro):
 
 # -------------------- WRITE DATA --------------------
 def write_txt(jogador, exibe_macro, matrix_board, matrix_board_state, resultado_jogo):
-	file = open("./jogo2.txt", "w")
+	file = open("./jogo.txt", "w")
 
 	file.write(f"{jogador}\n")
 
 	file.write(f"{exibe_macro}\n")
 
 	file.write(f"{resultado_jogo}\n")
+	print(f"oieee {resultado_jogo}\n")
 	
 	for line in matrix_board:
 		file.write(" ".join(line) + "\n")
@@ -106,11 +109,11 @@ def get_txt():
 		line = line.decode("utf-8")
 		line = line.replace("\r","")
 		line = line.replace("\n","")
-		lines.append(line)
+		if line != "":
+			lines.append(line)
 		line = (file.readline())
-		
+	
 	file.close()
-	lines.remove("")
 
 	return lines
 
@@ -141,35 +144,73 @@ def get_elements(text):
 
 
 
+if not TEST:
+    # ---------------- RECEIVE SERIAL DATA ----------------
 
-# ---------------- RECEIVE SERIAL DATA ----------------
+    print("START RECEIVING DATA...")
+    count = 0
+    while True:
+        if count == 0:
+            count = 1
+            data1 = ser.read(1)  # Read 3 bytes (24 bits)
+            data1_int = int.from_bytes(data1, byteorder='big')
+            data1_bin = "{:08b}".format(data1_int)
+            print("data1: " + data1_bin)
+        else:
+            count = 0
+            data2 = ser.read(1)  # Read 3 bytes (24 bits)
+            data2_int = int.from_bytes(data2, byteorder='big')
+            data2_bin = "{:08b}".format(data2_int)
+            print("data2: " + data2_bin)
+            estado, macro, micro, estado_macro, estado_jogo = split_data(data1_bin, data2_bin)
+            print(estado)
+            print(macro)
+            print(micro)
+            print(estado_macro)
+            print(estado_jogo)
+            
+            text = get_txt()
+            jogador, yellow_matrix, matrix_board, matrix_board_state, resultado_jogo = get_elements(text)
+            jogador = update_jogador(estado, jogador)
+            matrix_board = update_board(matrix_board, micro, macro, estado, jogador)
+            matrix_board_state = update_board_state(matrix_board_state, estado, macro, estado_macro)
+            exibe_macro = update_exibe_macro(estado, macro)
+            print(jogador)
+            write_txt(jogador, exibe_macro, matrix_board, matrix_board_state, estado_jogo)
+        
 
-print("START RECEIVING DATA...")
-count = 0
-while True:
-    if count == 0:
-        count = 1
-        data1 = ser.read(1)  # Read 3 bytes (24 bits)
-        data1_int = int.from_bytes(data1, byteorder='big')
-        data1_bin = "{:08b}".format(data1_int)
-    else:
-        count = 0
-        data2 = ser.read(1)  # Read 3 bytes (24 bits)
-        data2_int = int.from_bytes(data1, byteorder='big')
-        data2_bin = "{:08b}".format(data1_int)
 
-        estado, macro, micro, estado_macro, estado_jogo = split_data(data1_bin, data2_bin)
-        text = get_txt()
-        jogador, yellow_matrix, matrix_board, matrix_board_state, resultado_jogo = get_elements(text)
-        jogador = update_jogador(estado, jogador)
-        matrix_board = update_board(matrix_board, micro, macro, estado, jogador)
-        matrix_board_state = update_board_state(matrix_board_state, estado, macro, estado_macro)
-        exibe_macro = update_exibe_macro(estado, macro)
-        write_txt(jogador, exibe_macro, matrix_board, matrix_board_state, resultado_jogo)
-    
+    # Close the serial port
+    ser.close()
 
+if TEST:
 
-# Close the serial port
-ser.close()
-
+    print("TESTING MANUALLY...")
+    count = 0
+    while True:
+        if count == 0:
+            count = 1
+            data1_int = int(input("data1: "))
+            data1_bin = "{:08b}".format(data1_int)
+            print("data1: " + data1_bin)
+        else:
+            count = 0
+            data2_int = int(input("data2: "))
+            data2_bin = "{:08b}".format(data2_int)
+            print("data2: " + data2_bin)
+            estado, macro, micro, estado_macro, estado_jogo = split_data(data1_bin, data2_bin)
+            print(estado)
+            print(macro)
+            print(micro)
+            print(estado_macro)
+            print(estado_jogo)
+            
+            text = get_txt()
+            jogador, yellow_matrix, matrix_board, matrix_board_state, resultado_jogo = get_elements(text)
+            jogador = update_jogador(estado, jogador)
+            matrix_board = update_board(matrix_board, micro, macro, estado, jogador)
+            matrix_board_state = update_board_state(matrix_board_state, estado, macro, estado_macro)
+            exibe_macro = update_exibe_macro(estado, macro)
+            print(jogador)
+            write_txt(jogador, exibe_macro, matrix_board, matrix_board_state, estado_jogo)
 

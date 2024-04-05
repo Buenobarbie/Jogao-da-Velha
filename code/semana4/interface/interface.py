@@ -249,11 +249,12 @@ def get_txt():
 		line = line.decode("utf-8")
 		line = line.replace("\r","")
 		line = line.replace("\n","")
-		lines.append(line)
+		if line != "":
+			lines.append(line)
 		line = (file.readline())
-		
+	
 	file.close()
-	lines.remove("")
+
 
 	return lines
 
