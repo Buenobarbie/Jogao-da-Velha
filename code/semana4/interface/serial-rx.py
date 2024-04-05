@@ -101,9 +101,9 @@ def write_txt(jogador, exibe_macro, matrix_board, matrix_board_state, resultado_
 	
 
 # ------------------------- GET DATA -------------------------
-def get_txt():
+def get_txt(file):
 	lines = []
-	file = open("./jogo.txt", "rb")
+	file = open(file, "rb")
 	line = file.readline()
 	while line:
 		line = line.decode("utf-8")
@@ -169,7 +169,10 @@ if not TEST:
             print(estado_macro)
             print(estado_jogo)
             
-            text = get_txt()
+            if estado == "0000":            
+                text = get_txt("reset.txt")
+            else:
+                text = get_txt("jogo.txt")
             jogador, yellow_matrix, matrix_board, matrix_board_state, resultado_jogo = get_elements(text)
             jogador = update_jogador(estado, jogador)
             matrix_board = update_board(matrix_board, micro, macro, estado, jogador)
@@ -204,8 +207,11 @@ if TEST:
             print(micro)
             print(estado_macro)
             print(estado_jogo)
-            
-            text = get_txt()
+
+            if estado == "0000":            
+                text = get_txt("reset.txt")
+            else:
+                text = get_txt("jogo.txt")
             jogador, yellow_matrix, matrix_board, matrix_board_state, resultado_jogo = get_elements(text)
             jogador = update_jogador(estado, jogador)
             matrix_board = update_board(matrix_board, micro, macro, estado, jogador)
@@ -213,4 +219,3 @@ if TEST:
             exibe_macro = update_exibe_macro(estado, macro)
             print(jogador)
             write_txt(jogador, exibe_macro, matrix_board, matrix_board_state, estado_jogo)
-
