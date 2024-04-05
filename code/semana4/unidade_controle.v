@@ -46,6 +46,8 @@ module unidade_controle (
     parameter verifica_tabuleiro   = 4'b1011;  // B
     parameter trocar_jogador       = 4'b1100;  // C
     parameter decide_macro         = 4'b1101;  // D
+	 parameter E_reset              = 4'b1110;  // E
+	 
     parameter fim                  = 4'b1111;  // F
 
 
@@ -55,7 +57,7 @@ module unidade_controle (
     // Memoria de estado
     always @(posedge clock or posedge reset) begin
         if (reset)
-            Eatual <= inicial;
+            Eatual <= E_reset;
         else
             Eatual <= Eprox;
     end
@@ -63,7 +65,8 @@ module unidade_controle (
     // Logica de proximo estado 
     always @* begin
         case (Eatual) 
-            inicial:              Eprox = (iniciar) ? preparacao : inicial;
+				E_reset:              Eprox = inicial;
+            inicial:              Eprox = (!fimS) ? inicial : (iniciar) ? preparacao : inicial;
             preparacao:           Eprox = joga_macro;
             joga_macro:           Eprox = (!fimS) ? joga_macro : (tem_jogada) ? registra_macro : joga_macro;
             registra_macro:       Eprox = valida_macro;
@@ -98,9 +101,9 @@ module unidade_controle (
         zeraFlipFlopT      = (Eatual == inicial) ? 1'b1 : 1'b0;
         sinal_valida_macro = (Eatual == registra_macro || Eatual == valida_macro || Eatual == registra_resultado) ? 1'b1 : 1'b0;
         zeraT              = (Eatual == inicial || Eatual == registra_macro || Eatual == registra_micro ) ? 1'b1 : 1'b0;
-        zeraS              = (Eatual == preparacao || Eatual == valida_macro || Eatual == valida_micro || Eatual == verifica_macro || Eatual == verifica_tabuleiro) ? 1'b1 : 1'b0;
+        zeraS              = (Eatual == E_reset || Eatual == preparacao || Eatual == valida_macro || Eatual == valida_micro || Eatual == verifica_macro || Eatual == verifica_tabuleiro) ? 1'b1 : 1'b0;
         contaT             = (Eatual == fim || Eatual == valida_macro || Eatual == valida_micro) ? 1'b1 : 1'b0;
-        contaS             = (Eatual == joga_macro || Eatual == joga_micro || Eatual == registra_jogada || Eatual == registra_resultado || Eatual == trocar_jogador) ? 1'b1 : 1'b0;
+        contaS             = (Eatual == inicial || Eatual == joga_macro || Eatual == joga_micro || Eatual == registra_jogada || Eatual == registra_resultado || Eatual == trocar_jogador) ? 1'b1 : 1'b0;
         we_board           = (Eatual == registra_jogada) ? 1'b1 : 1'b0;
         we_board_state     = (Eatual == registra_resultado) ? 1'b1 : 1'b0;
         zeraRAM            = (Eatual == inicial) ? 1'b1 : 1'b0;
@@ -122,6 +125,7 @@ module unidade_controle (
             verifica_tabuleiro:    db_estado = verifica_tabuleiro; // B
             trocar_jogador:        db_estado = trocar_jogador;     // C 
             decide_macro:          db_estado = decide_macro;       // D
+				E_reset:               db_estado = E_reset;              // E
             fim:                   db_estado = fim;                // F        
             
             default:               db_estado = 4'b1110;            // E (ERRO)
