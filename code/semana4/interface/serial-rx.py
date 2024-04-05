@@ -2,7 +2,7 @@ import serial
 
 TEST = 0
 
-PORT = 'COM19'  # Change this to your serial port
+PORT = 'COM30'  # Change this to your serial port
 BAUDRATE = 9600
 
 if not TEST:
@@ -52,7 +52,8 @@ def update_board_state(matrix_board_state, estado, macro, estado_macro):
     return matrix_board_state
 
 def update_jogador(estado, jogador):
-    if (estado == TROCA_JOGADOR):
+    print(f"estado:{estado}")
+    if (estado == REGISTRA_RESULTADO):
         if jogador == 1:
             jogador = 2
         else:
