@@ -60,7 +60,8 @@ circuito_jogo circuito_jogo(
 // 1111
 // ABCD
 
-assign sinal = ((~uart_estado[0] && uart_estado[1] && ~uart_estado[2] && ~uart_estado[3]) ||
+assign sinal = ((~uart_estado[0] && ~uart_estado[1] && ~uart_estado[2] && ~uart_estado[3]) ||
+                (~uart_estado[0] && uart_estado[1] && ~uart_estado[2] && ~uart_estado[3]) ||
                 (uart_estado[0] && ~uart_estado[1] && uart_estado[2] && ~uart_estado[3]) ||
                 (~uart_estado[0] && ~uart_estado[1] && ~uart_estado[2] && uart_estado[3]) ||
                 (~uart_estado[0] && uart_estado[1] && ~uart_estado[2] && uart_estado[3]) ||
