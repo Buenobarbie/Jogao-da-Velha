@@ -303,8 +303,9 @@ while run:
 		if event.type == pygame.QUIT:
 			run= False
 	text = get_txt()
-	jogador, yellow_matrix, matrix_board, matrix_board_state, resultado_jogo = get_elements(text)
-	draw_win(jogador,yellow_matrix, matrix_board, matrix_board_state, resultado_jogo)
+	if text:
+		jogador, yellow_matrix, matrix_board, matrix_board_state, resultado_jogo = get_elements(text)
+		draw_win(jogador,yellow_matrix, matrix_board, matrix_board_state, resultado_jogo)
 	
 
 pygame.quit()	
