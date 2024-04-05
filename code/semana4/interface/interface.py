@@ -33,7 +33,7 @@ global cor_jogador2_macro
 cor_jogador2_macro = (255,100,100)
 
 global cor_empate
-cor_empate = (255,255,0)
+cor_empate = (187,153,255)
 
 global cor_branco
 cor_branco = (255, 255, 255)
@@ -77,11 +77,11 @@ def draw_board():
 
 # titulo do jogo (Jogão da Velha)
 def title():
-	font_size = 35
-	x_text = 280
+	font_size = 32
+	x_text = 170
 	y_text = 20
 
-	font_title = pygame.font.SysFont('Arial', font_size, True)
+	font_title = pygame.font.Font('PressStart2P-Regular.ttf', font_size)
 	text_title = font_title.render(f'Jogão da Velha', 1 , cor_title)
 	win.blit(text_title, (x_text, y_text))
 
@@ -207,15 +207,15 @@ def draw_board_plays(matrix):
 			j += 1
 
 def draw_player(player):
-	font_size = 25
+	font_size = 21
 	if player == 1:
 		text_color = cor_jogador1
 	else:
 		text_color = cor_jogador2
-	x_text = 350
+	x_text = 290
 	y_text = 70
 
-	font1 = pygame.font.SysFont('Arial', font_size,True)
+	font1 = pygame.font.Font('PressStart2P-Regular.ttf', font_size)
 	text = font1.render(f'Jogador: {player}', 1 , text_color)
 	win.blit(text, (x_text, y_text))
 
@@ -223,22 +223,38 @@ def draw_rect():
 	pygame.draw.rect(win, (255,0,0),(20,60 , 20,10))
 
 def draw_result(result):
-	font_size = 100
-	if result == "01":
-		text_color = cor_jogador1
-		text = "Jogador 1 Venceu!"
-	elif result == "10":
-		text_color = cor_jogador2
-		text = "Jogador 2 Venceu!"
-	elif result == "11":
-		text_color = cor_empate
-		text = "Empate!"
-	x_text = 10
+	font_size = 70
+	x_text = 70
 	y_text = 300
 
-	font1 = pygame.font.SysFont('Arial', font_size,True)
-	text = font1.render(f'{text}', 1 , text_color)
-	win.blit(text, (x_text, y_text))
+	if result == "01":
+		text_color = cor_jogador1
+		text = "Jogador 1"
+		text2 = " Venceu!"
+		font1 = pygame.font.Font('PressStart2P-Regular.ttf', font_size)
+		text = font1.render(f'{text}', 1 , (255,255,255), text_color)
+		text2 = font1.render(f'{text2}', 1 , (255,255,255), text_color)
+		win.blit(text, (x_text, y_text))
+		win.blit(text2, (x_text + 50, y_text + 70))
+	elif result == "10":
+		text_color = cor_jogador2
+		text = "Jogador 2"
+		text2 = " Venceu!"
+		font1 = pygame.font.Font('PressStart2P-Regular.ttf', font_size)
+		text = font1.render(f'{text}', 1 , (255,255,255), text_color)
+		text2 = font1.render(f'{text2}', 1 , (255,255,255), text_color)
+		win.blit(text, (x_text, y_text))
+		win.blit(text2, (x_text + 50, y_text + 70))
+	elif result == "11":
+		x_text = 160
+		y_text = 340
+		text_color = cor_empate
+		text = "Empate!"
+		font1 = pygame.font.Font('PressStart2P-Regular.ttf', font_size)
+		text = font1.render(f'{text}', 1 , (0,0,0))
+		win.blit(text, (x_text, y_text))
+
+	
 
 # ---------------------------- GET DATA ----------------------------
 def get_txt():
