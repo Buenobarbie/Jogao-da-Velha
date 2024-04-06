@@ -56,13 +56,19 @@ wire [3:0] addr_micro;
 
 wire [1:0]saida_ram_state;
 
+wire [8:0] botoes_aux;
+
+assign botoes_aux = {botoes[8], botoes[7], botoes[6], 
+							botoes[5], botoes[4], botoes[3], 
+							botoes[2], botoes[1], botoes[0]};
+
 
   // ------------ DETECTAR A JOGADA ---------------------
 
   // Geração do sinal dos botoes
-  assign sinal = (botoes[0] ^ botoes[1] ^ botoes[2]
-                ^ botoes[3] ^ botoes[4] ^ botoes[5] 
-                ^ botoes[6] ^ botoes[7] ^ botoes[8]);
+  assign sinal = (botoes_aux[0] ^ botoes_aux[1] ^ botoes_aux[2]
+                ^ botoes_aux[3] ^ botoes_aux[4] ^ botoes_aux[5] 
+                ^ botoes_aux[6] ^ botoes_aux[7] ^ botoes_aux[8]);
                 
   assign db_tem_jogada = sinal; 
 
@@ -77,7 +83,7 @@ wire [1:0]saida_ram_state;
   // ----------- REGISTRAR A JOGADA MACRO ----------------
   // Multiplexador
   // Registra jogada manual(botoes) ou automatica (micro)
-  assign mux_macro = (sinal_macro) ? botoes : micro;
+  assign mux_macro = (sinal_macro) ? botoes_aux : micro;
 
   // Registrador macro
   registrador_9 registradorMacro(
@@ -94,7 +100,7 @@ wire [1:0]saida_ram_state;
 		.clock(clock),
 		.clear(zeraR_micro),
 		.enable(registraR_micro),
-		.D(botoes),
+		.D(botoes_aux),
 		.Q(micro)
   );
 
@@ -198,7 +204,7 @@ wire [1:0]saida_ram_state;
 
 
 // Acender o led do botao pressionado
-assign leds = botoes;
+assign leds = botoes_aux;
 
 // Exibir jogadas dos registradores nos displays
 assign db_macro = addr_macro;

@@ -65,7 +65,6 @@ assign sinal = ((~uart_estado[0] && ~uart_estado[1] && ~uart_estado[2] && ~uart_
                 (uart_estado[0] && ~uart_estado[1] && uart_estado[2] && ~uart_estado[3]) ||
                 (~uart_estado[0] && ~uart_estado[1] && ~uart_estado[2] && uart_estado[3]) ||
                 (~uart_estado[0] && uart_estado[1] && ~uart_estado[2] && uart_estado[3]) ||
-                (~uart_estado[0] && ~uart_estado[1] && uart_estado[2] && uart_estado[3]) ||
                 (uart_estado[0] && uart_estado[1] && uart_estado[2] && uart_estado[3]));
 
 edge_detector detect_wr
