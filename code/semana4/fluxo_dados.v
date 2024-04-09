@@ -58,9 +58,7 @@ wire [1:0]saida_ram_state;
 
 wire [8:0] botoes_aux;
 
-assign botoes_aux = {botoes[8], botoes[7], botoes[6], 
-							botoes[5], botoes[4], botoes[3], 
-							botoes[2], botoes[1], botoes[0]};
+assign botoes_aux = ~botoes;
 
 
   // ------------ DETECTAR A JOGADA ---------------------

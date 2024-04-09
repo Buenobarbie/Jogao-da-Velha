@@ -30,6 +30,9 @@ module unidade_controle (
     output reg jogar_micro,
     output reg [3:0] db_estado
 );
+    
+    assign reset_aux = ~reset;
+    assign iniciar_aux = ~iniciar;
 
     // Define estados
     parameter inicial              = 4'b0000;  // 0
@@ -55,8 +58,8 @@ module unidade_controle (
     reg [3:0] Eatual, Eprox;
 
     // Memoria de estado
-    always @(posedge clock or posedge reset) begin
-        if (reset)
+    always @(posedge clock or posedge reset_aux) begin
+        if (reset_aux)
             Eatual <= E_reset;
         else
             Eatual <= Eprox;
@@ -66,7 +69,7 @@ module unidade_controle (
     always @* begin
         case (Eatual) 
 				E_reset:              Eprox = inicial;
-            inicial:              Eprox = (!fimS) ? inicial : (iniciar) ? preparacao : inicial;
+            inicial:              Eprox = (!fimS) ? inicial : (iniciar_aux) ? preparacao : inicial;
             preparacao:           Eprox = joga_macro;
             joga_macro:           Eprox = (!fimS) ? joga_macro : (tem_jogada) ? registra_macro : joga_macro;
             registra_macro:       Eprox = valida_macro;
@@ -80,7 +83,7 @@ module unidade_controle (
             verifica_tabuleiro:   Eprox = (fim_jogo) ? fim : trocar_jogador;
             trocar_jogador:       Eprox =  decide_macro;
             decide_macro:         Eprox = (macro_vencida) ? preparacao : joga_micro;
-            fim:                  Eprox = (!fimT) ? fim : (iniciar) ? inicial : fim;
+            fim:                  Eprox = (!fimT) ? fim : (iniciar_aux) ? inicial : fim;
             
             default:              Eprox = inicial;
         endcase
