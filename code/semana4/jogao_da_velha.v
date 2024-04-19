@@ -70,7 +70,7 @@ assign sinal = ((~uart_estado[0] && ~uart_estado[1] && ~uart_estado[2] && ~uart_
 edge_detector detect_wr
 (
     .clock(clock),
-    .reset(reset),
+    .reset(~reset),
     .sinal(sinal),
     .pulso(wr)
 );
