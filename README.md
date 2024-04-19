@@ -16,5 +16,8 @@ Rodar o arquivo interface.py, que apresenta o estado do arquivo jogo.txt .
 
 Na pasta "/code/projeto-final/interface", rodar o arquivo serial-rx.py para começar a receber as informações da fpga. Mudar no código a porta COM de acordo com a utilizada.
 
+## Projeto
 
+![interface](./images/interface.jpeg)
+![montagem](./images/montagem.jpeg)
 
